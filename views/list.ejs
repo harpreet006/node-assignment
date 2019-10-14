@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<!--
+	Industrious by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>Generic Page - Industrious by TEMPLATED</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<%-include('templates/headstyle')%>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+		<%-include('templates/header')%>
+
+		<!-- Heading -->
+			<div id="heading" >
+				<h1>Generic Page</h1>
+			</div>
+
+		<!-- Main -->
+			<section id="main" class="wrapper">
+				<div class="inner">
+					<div class="content">						
+						<div class="table-wrapper">
+										<table>
+											<thead>
+												<tr>
+													<th>Name</th>
+													<th>Email</th>
+													<th>Category</th>
+													<th>Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												<% for(var a=0;a<data.length; a++) {%>									
+													<tr>
+														<td><%= data[a].name; %></td>
+														<td><%= data[a].email %></td>
+														<td><%= data[a].category %></td>
+														<td>
+															<a href="	/<%= data[a].id %>">Edit</a> /
+															<a href="delete/<%= data[a].id %>">Delete</a>
+														</td>
+													</tr>
+												<%}%>																		
+											</tbody>											 
+										</table>
+									</div>
+					</div>
+				</div>
+			</section>
+
+		<!-- Footer -->
+		 <%-include('templates/footer')%>
+
+		<!-- Scripts -->
+			<%-include('templates/footerjs')%>
+	</body>
+</html>
