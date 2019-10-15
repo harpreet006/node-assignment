@@ -12,6 +12,36 @@
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
 		<%-include('templates/headstyle')%>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$("input[name=search]").keyup(function(){
+					var key = $(this).val()
+					$.ajax({
+						method:"POST",
+						url:"http://127.0.0.1:8002/search",
+						data:{keyword:key},
+						cache:true,
+						//dataType:"json",
+						success:function(responce,result){
+							//$("ul").empty()
+							console.log(result)
+							//var res= JSON.parse(result)
+							/*if(res.length>0){
+								for(var a=0;a<res.length;a++){
+									console.log("****");
+								}else{
+									console.log("no record found")
+								}
+							}*/
+						}, error:function(error,result){
+							console.log("error")
+						}
+					})
+				})
+
+			})
+		</script>
 	</head>
 	<body class="is-preload">
 
@@ -28,6 +58,11 @@
 				<div class="inner">
 					<div class="content">						
 						<div class="table-wrapper">
+							<div>
+								<form name=post>
+									<input type=text  name=search>
+								</form>
+							</div>
 							<table>
 								<thead>
 									<tr>
