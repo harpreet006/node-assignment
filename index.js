@@ -3,9 +3,10 @@ var http = require('http');
 var url = require('url');
 var path = require('path');
 var mysql = require('mysql');
-var multer = require('multer');
-var fa = require('fs');
 
+/* file upload script  start*/
+
+var multer  =   require('multer');
 var storage =   multer.diskStorage({
   destination: function (req, file, callback) {
     callback(null, './uploads');
@@ -14,14 +15,16 @@ var storage =   multer.diskStorage({
     callback(null, file.fieldname + '-' + Date.now());
   }
 });
-var upload = multer({ storage : storage}).single('fileupload');
+var upload = multer({ storage : storage}).single('upload');
+
+/* file upload script  start */
 
 var bodyParser = require('body-parser');
 var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 // app.set('Port',process.env.port||8000)	
-app.set('port', process.env.PORT || 8000);
+app.set('port', process.env.PORT || 8002);
 app.set('views',path.join(__dirname,'views'))
 app.set('view engine', 'ejs');
 app.set(express.json())
@@ -29,7 +32,7 @@ app.use(express.static(path.join(__dirname,'public')))
 var conn = mysql.createConnection({
 	host:"localhost",
 	user:"root",
-	password:"",
+	password:"ourdesignz",
 	database:"node_crud_1"
 })
 // app.use(express.static(path.join(__dirname,js)))
@@ -46,14 +49,18 @@ app.post('/ulogin',function(req,res){
 	let username=req.body.lname
 	let password=req.body.lpassword
 	let queryd='select * from users where name="'+username+'" and password="'+password+'"';	
-	conn.query(queryd,function(req,res){
-		if(res.length){
- 			console.log("welcom to login section")
-		}else{
-			console.log("error")
-			//res.redirect('userlogin')
+	conn.query(queryd,function(err,responce){
+		try{
+			if(responce){
+				console.log("welcome to login section")
+			}else{
+				console.log("value not insterted")
+			}
+		}catch(err){
+			console.log(err,"Cause connection !")
 		}
 	})
+	res.redirect('/userlogin')
 })
 app.get('/userlogin',function(req,res){
 	res.render('login');
@@ -65,7 +72,6 @@ app.get('/list',function(req,res){
 		res.render('list',{data:responce})
 	})
 })
-
 app.get('/edit/:userid',function(req,res){
 	let query='select * from users where id="'+req.params.userid+'"';	
 	conn.query(query,function(err,responce){
@@ -83,22 +89,22 @@ app.get('/delete/:userid',function(req,res){
 })
 
 app.post('/save',function(req,res){
-	let name =req.body.name
-	let email =req.body.email
-	let category =req.body.category
-	let radio =req.body.radio
-	let checkbox =req.body.checkbox
-	let textarea =req.body.textarea
-	let password =req.body.password
-	upload(req,res,function(err) {
-		if(err) {
-		    return res.end("Error uploading file.");
-		}
-		res.end("File is uploaded");
-	});
-
-
-	sql= "insert into users (name,email,category,radio,checkbox,textarea,password)VALUES('"+name+"','"+email+"','"+category+"','"+radio+"','"+checkbox+"','"+textarea+"','"+password+"')";
+	let name = req.body.name
+	let email = req.body.email
+	let category = req.body.category
+	let radio = req.body.radio
+	let checkbox = req.body.checkbox
+	let textarea = req.body.textarea
+	let password = req.body.password
+	var filename= "";
+	/*upload(req,res,function(err) {
+        if(err) {        	 
+            return res.end("Error uploading file.");
+        }       
+        filename=req.file.originalname
+    });*/
+	sql= "insert into users (name,email,category,radio,checkbox,textarea,password,filename)VALUES('"+name+"','"+email+"','"+category+"','"+radio+"','"+checkbox+"','"+textarea+"','"+password+"','"+filename+"')";
+	console.log(sql)
 	conn.query(sql,function(req,res){
 		try{
 			if(res){
