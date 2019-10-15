@@ -28,30 +28,29 @@
 				<div class="inner">
 					<div class="content">						
 						<div class="table-wrapper">
-										<table>
-											<thead>
-												<tr>
-													<th>Name</th>
-													<th>Email</th>
-													<th>Category</th>
-													<th>Action</th>
-												</tr>
-											</thead>
-											<tbody>
-												<% for(var a=0;a<data.length; a++) {%>									
-													<tr>
-														<td><%= data[a].name; %></td>
-														<td><%= data[a].email %></td>
-														<td><%= data[a].category %></td>
-														<td>
-															<a href="edit/<%= data[a].id %>">Edit</a> /
-															<a href="delete/<%= data[a].id %>">Delete</a>
-														</td>
-													</tr>
-												<%}%>																		
-											</tbody>											 
-										</table>
-									</div>
+							<table>
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>Email</th>
+										<th>Category</th>
+										<th>Action</th>
+									</tr>
+								</thead>
+								<tbody>
+									<% for(var a=0;a<data.length; a++) {%>	<tr>
+											<td><%= data[a].name; %></td>
+											<td><%= data[a].email %></td>
+											<td><%= data[a].category %></td>
+											<td>
+												<a href="edit/<%= data[a].id %>">Edit</a> /
+												<a href="delete/<%= data[a].id %>">Delete</a>
+											</td>
+										</tr>
+									<%}%>																		
+								</tbody>											 
+							</table>
+						</div>
 					</div>
 				</div>
 			</section>

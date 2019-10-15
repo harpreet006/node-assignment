@@ -15,10 +15,9 @@ var storage =   multer.diskStorage({
     callback(null, file.fieldname + '-' + Date.now());
   }
 });
-var upload = multer({ storage : storage}).single('upload');
+var upload = multer({ storage : storage});
 
 /* file upload script  start */
-
 var bodyParser = require('body-parser');
 var app = express();
 app.use(bodyParser.json());
@@ -72,12 +71,19 @@ app.get('/list',function(req,res){
 		res.render('list',{data:responce})
 	})
 })
+
 app.get('/edit/:userid',function(req,res){
 	let query='select * from users where id="'+req.params.userid+'"';	
 	conn.query(query,function(err,responce){
-		res.redirect('/editpage')
+		res.render('editpage',{data:responce})
 	})
-	//console.log("**********");
+})
+
+app.post('/update',function(req,res){
+	sql="UPDATE users SET name = '"+req.body.name+"', email = '"+req.body.email+"', category='"+req.body.category+"',radio='"+req.body.radio+"',checkbox='"+req.body.checkbox+"', textarea='"+req.body.textarea+"',password='"+req.body.password+"',filename='' WHERE id ='"+req.body.id+"'"
+	conn.query(sql,function(err,responce){
+		res.redirect('list')
+	})
 })
 
 app.get('/delete/:userid',function(req,res){
@@ -88,7 +94,8 @@ app.get('/delete/:userid',function(req,res){
 	})
 })
 
-app.post('/save',function(req,res){
+app.post('/save', function(req,res,next){
+	console.log(req)
 	let name = req.body.name
 	let email = req.body.email
 	let category = req.body.category
@@ -96,13 +103,13 @@ app.post('/save',function(req,res){
 	let checkbox = req.body.checkbox
 	let textarea = req.body.textarea
 	let password = req.body.password
-	var filename= "";
-	/*upload(req,res,function(err) {
+	var filename= "";	 
+	upload(req,res,function(err) {
         if(err) {        	 
             return res.end("Error uploading file.");
         }       
         filename=req.file.originalname
-    });*/
+    });
 	sql= "insert into users (name,email,category,radio,checkbox,textarea,password,filename)VALUES('"+name+"','"+email+"','"+category+"','"+radio+"','"+checkbox+"','"+textarea+"','"+password+"','"+filename+"')";
 	console.log(sql)
 	conn.query(sql,function(req,res){
