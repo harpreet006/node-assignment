@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname,'public')))
 var conn = mysql.createConnection({
 	host:"localhost",
 	user:"root",
-	password:"ourdesignz",
+	password:"",
 	database:"node_crud_1"
 })
 //console.log(conn,"")
@@ -39,8 +39,34 @@ app.get('/',function(req,res){
 app.get('/elements',function(req,res){
 	res.render('elements')
 })
+
+app.post("/getstate",function(req,res){	
+	sql="select * from states where country_id="+req.body.datakey+""	
+	conn.query(sql,function(req,responce){
+		/*var resdata=responce
+		let ary=""
+		for(var a=0;a<responce.length;a++){
+			ary += "<option value="+responce[a].id+">"+responce[a].name+"</option>"
+		}
+		res.send(responce)*/
+		
+	})	
+})
 app.get('/register',function(req,res){
-	res.render('register')
+	let sql ="select * from countries"
+	let responce=""
+	conn.query(sql,function(req,responce){
+		try{
+			if(res){
+				responcedata= responce
+			}else{
+				responcedata= ""
+			}
+		}catch(err){
+			console.log("error")
+		}
+	res.render('register',{country:responcedata})
+	})
 })
 app.post('/ulogin',function(req,res){	
 	let username=req.body.lname
