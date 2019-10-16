@@ -29,10 +29,10 @@ app.use(express.static(path.join(__dirname,'public')))
 var conn = mysql.createConnection({
 	host:"localhost",
 	user:"root",
-	password:"",
+	password:"ourdesignz",
 	database:"node_crud_1"
 })
-console.log(conn,"")
+//console.log(conn,"")
 app.get('/',function(req,res){
 	res.render('index')
 })
@@ -62,8 +62,21 @@ app.get('/userlogin',function(req,res){
 	res.render('login');
 })
 
-app.get('/search',function(req,res){
-	console.log("dfsfd");
+app.post('/search',function(req,res){
+	let name = req.body.keyword
+	sql="SELECT * FROM users WHERE name LIKE '"+name+"%' ";
+	conn.query(sql,function(err,responce){
+		try{
+			if(responce.length>0){
+				res.send({status:true,result:responce})
+			}else{
+				res.send({status:false,result:"No record found"})
+			}
+		}catch(err){
+			console.log(err);
+		}
+	})
+	//res.send('**')
 })
 
 app.get('/list',function(req,res){
@@ -81,7 +94,7 @@ app.get('/edit/:userid',function(req,res){
 })
 
 app.post('/update',function(req,res){
-	sql="UPDATE users SET name = '"+req.body.name+"', email = '"+req.body.email+"', category='"+req.body.category+"',radio='"+req.body.radio+"',checkbox='"+req.body.checkbox+"', textarea='"+req.body.textarea+"',password='"+req.body.password+"',filename='' WHERE id ='"+req.body.id+"'"
+	sql="UPDATE users SET name = '"+req.body.name+"', email = '"+req.body.email+"', category='"+req.body.category+"',radio='"+req.body.radio+"',checkbox='"+req.body.checkbox+"', textarea='"+req.body.textarea+"',password='"+req.body.password+"',file='"+req.body.file+"' WHERE id ='"+req.body.id+"'"
 	conn.query(sql,function(err,responce){
 		res.redirect('list')
 	})
@@ -96,7 +109,6 @@ app.get('/delete/:userid',function(req,res){
 })
 
 app.post('/save', upload.single('file'),function(req,res,next){
-	console.log(req.file);
 	let name = req.body.name
 	let email = req.body.email
 	let category = req.body.category
@@ -104,9 +116,8 @@ app.post('/save', upload.single('file'),function(req,res,next){
 	let checkbox = req.body.checkbox
 	let textarea = req.body.textarea
 	let password = req.body.password
-	var filename= req.file.filename 	
-	sql= "insert into users (name,email,category,radio,checkbox,textarea,password,filename)VALUES('"+name+"','"+email+"','"+category+"','"+radio+"','"+checkbox+"','"+textarea+"','"+password+"','"+filename+"')";
-	console.log(sql)
+	var file= req.file.filename
+	sql= "insert into users (name,email,category,radio,checkbox,textarea,password,file)VALUES('"+name+"','"+email+"','"+category+"','"+radio+"','"+checkbox+"','"+textarea+"','"+password+"','"+file+"')";
 	conn.query(sql,function(req,res){
 		try{
 			if(res){

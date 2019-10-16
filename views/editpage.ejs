@@ -38,7 +38,7 @@
 										<input type="email" name="email" id="email" value="<%=data[0].email%>" placeholder="Email" />
 									</div>
 									<!-- Break -->
-									<div class="col-12">											
+									<div class="col-12">		
 										<select name="category" id="category" required="">
 											<option value="">- Select -</option>
 											<option  <%if(data[0].category=="alpha"){%>	selected<%}%> value="alpha">Option alpha</option>
@@ -77,6 +77,9 @@
 									<div class="col-12">
 										<textarea name="textarea" id="textarea" placeholder="Alpha beta gamma delta" rows="6"><%=data[0].name%></textarea>
 									</div>
+									<div class="col-12">
+												<input type="file" name="file" required="" value="<%=data[0].file%>">
+											</div>
 									<div class="col-12">
 										<input type=password name=password placeholder="password" value="<%=data[0].password%>">
 									</div>											<!-- Break -->

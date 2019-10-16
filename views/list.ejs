@@ -1,9 +1,4 @@
 <!DOCTYPE HTML>
-<!--
-	Industrious by TEMPLATED
-	templated.co @templatedco
-	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
--->
 <html>
 	<head>
 		<title>Generic Page - Industrious by TEMPLATED</title>
@@ -19,23 +14,25 @@
 					var key = $(this).val()
 					$.ajax({
 						method:"POST",
-						url:"http://127.0.0.1:8002/search",
+						url:"/search",
 						data:{keyword:key},
 						cache:true,
-						//dataType:"json",
-						success:function(responce,result){
-							//$("ul").empty()
-							console.log(result)
-							//var res= JSON.parse(result)
-							/*if(res.length>0){
-								for(var a=0;a<res.length;a++){
-									console.log("****");
-								}else{
-									console.log("no record found")
+						header:{contentType: 'application/json'},
+						dataType: "text",
+						success:function(responce, responcetext){
+							let arydata=JSON.parse(responce)
+							if(arydata.status){
+								var ary='';
+								for(let a=0;a<arydata.result.length;a++){
+									ary +="<tr><td>"+arydata.result[a].name+"</td><td>"+arydata.result[a].email+"</td><td>"+arydata.result[a].category+"</td><td><a href='edit/"+arydata.result[a].id+"'>Edit</a>/<a href='delete/"+arydata.result[a].id+"'>Delete</a></td></tr>"
 								}
-							}*/
-						}, error:function(error,result){
-							console.log("error")
+							}else{
+								ary= '<td style="text-align:center" colspan="4">'+arydata.result+'</td>'
+							}
+							$("table tbody").html(ary);
+						},
+						error:function(error,result){
+							console.log(error,result)
 						}
 					})
 				})
@@ -44,15 +41,12 @@
 		</script>
 	</head>
 	<body class="is-preload">
-
 		<!-- Header -->
 		<%-include('templates/header')%>
-
 		<!-- Heading -->
 			<div id="heading" >
 				<h1>Generic Page</h1>
 			</div>
-
 		<!-- Main -->
 			<section id="main" class="wrapper">
 				<div class="inner">
@@ -60,7 +54,7 @@
 						<div class="table-wrapper">
 							<div>
 								<form name=post>
-									<input type=text  name=search>
+									<input type=text  name=search placeholder="Search">
 								</form>
 							</div>
 							<table>
@@ -89,10 +83,8 @@
 					</div>
 				</div>
 			</section>
-
 		<!-- Footer -->
 		 <%-include('templates/footer')%>
-
 		<!-- Scripts -->
 			<%-include('templates/footerjs')%>
 	</body>
