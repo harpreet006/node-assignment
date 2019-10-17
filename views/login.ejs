@@ -1,12 +1,7 @@
 <!DOCTYPE HTML>
-<!--
-	Industrious by TEMPLATED
-	templated.co @templatedco
-	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
--->
 <html>
 	<head>
-		<title>Generic Page - Industrious by TEMPLATED</title>
+		<title>Login Page - Industrious by TEMPLATED</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<meta name="description" content="" />
@@ -14,45 +9,40 @@
 		<%-include('templates/headstyle')%>
 	</head>
 	<body class="is-preload">
-
 		<!-- Header -->
 		<%-include('templates/header')%>
-
 		<!-- Heading -->
 			<div id="heading" >
-				<h1>Generic Page</h1>
+				<h1>Login Page</h1>
 			</div>
-
 		<!-- Main -->
 			<section id="main" class="wrapper">
 				<div class="inner">
 					<div class="content">						
 						<form method="post" action="ulogin">
-										<div class="row gtr-uniform">
-											<div class="col-6 col-12-xsmall">
-												<input type="text" name="lname" id="name" value="" placeholder="Name" />
-											</div>
-											<div class="col-6 col-12-xsmall">
-												<input type="password" name="lpassword" id="name" value="" placeholder="Password" />
-											</div>
-									
-											<!-- Break -->
-											<div class="col-12">
-												<ul class="actions">
-													<li><input type="submit" value="login" class="primary" /></li>
-													<li><input type="reset" value="Reset" /></li>
-												</ul>
-											</div>
-										</div>
-									</form>
+							<div class="row gtr-uniform">
+								<div class="col-6 col-12-xsmall">
+									<input type="text" name="lname" id="name" value="" placeholder="Name" />
+								</div>
+								<div class="col-6 col-12-xsmall">
+									<input type="password" name="lpassword" id="name" value="" placeholder="Password" />
+								</div>
+
+								<!-- Break -->
+								<div class="col-12">
+									<ul class="actions">
+										<li><input type="submit" value="login" class="primary" /></li>
+										<!-- <li><input type="reset" value="Reset" /></li> -->
+									</ul>
+								</div>
+							</div>
+						</form>
 					</div>
 				</div>
 			</section>
-
 		<!-- Footer -->
 		 <%-include('templates/footer')%>
-
 		<!-- Scripts -->
-			<%-include('templates/footerjs')%>
+		<%-include('templates/footerjs')%>
 	</body>
 </html>

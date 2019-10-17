@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname,'public')))
 var conn = mysql.createConnection({
 	host:"localhost",
 	user:"root",
-	password:"",
+	password:"ourdesignz",
 	database:"node_crud_1"
 })
 //console.log(conn,"")
@@ -46,7 +46,7 @@ app.post("/getstate",function(req,res){
 		if(responce.length){
 			res.send({status:true,result:responce})
 		}else{
-			res.send({status:false,result:'result not found'})			
+			res.send({status:false,result:''})			
 		}	
 	})	
 })
@@ -57,7 +57,7 @@ app.post("/getcity",function(req,res){
 		if(responce.length){
 			res.send({status:true,result:responce})
 		}else{
-			res.send({status:false,result:'result not found'})			
+			res.send({status:false,result:''})			
 		}	
 	})	
 })
@@ -111,7 +111,6 @@ app.post('/search',function(req,res){
 			console.log(err);
 		}
 	})
-	//res.send('**')
 })
 
 app.get('/list',function(req,res){
@@ -124,7 +123,7 @@ app.get('/list',function(req,res){
 app.get('/edit/:userid',function(req,res){
 	let query='select * from users where id="'+req.params.userid+'"';	
 	conn.query(query,function(err,responce){
-		res.render('editpage',{data:responce})
+		res.render('edit',{data:responce})
 	})
 })
 
@@ -152,7 +151,10 @@ app.post('/save', upload.single('file'),function(req,res,next){
 	let textarea = req.body.textarea
 	let password = req.body.password
 	var file= req.file.filename
-	sql= "insert into users (name,email,category,radio,checkbox,textarea,password,file)VALUES('"+name+"','"+email+"','"+category+"','"+radio+"','"+checkbox+"','"+textarea+"','"+password+"','"+file+"')";
+	var state= req.body.state
+	var city= req.body.city
+	var country= req.body.country
+	sql= "insert into users (name,email,category,radio,checkbox,textarea,password,file,state,city,country)VALUES('"+name+"','"+email+"','"+category+"','"+radio+"','"+checkbox+"','"+textarea+"','"+password+"','"+file+"','"+state+"','"+city+"','"+country+"')";
 	conn.query(sql,function(req,res){
 		try{
 			if(res){

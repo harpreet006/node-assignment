@@ -1,12 +1,7 @@
 <!DOCTYPE HTML>
-<!--
-	Industrious by TEMPLATED
-	templated.co @templatedco
-	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
--->
 <html>
 	<head>
-		<title>Generic Page - Industrious by TEMPLATED</title>
+		<title>Register Page - Industrious by TEMPLATED</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<meta name="description" content="" />
@@ -14,112 +9,109 @@
 		<%-include('templates/headstyle')%>
 	</head>
 	<body class="is-preload">
-
 		<!-- Header -->
 		<%-include('templates/header')%>
-
 		<!-- Heading -->
 			<div id="heading" >
-				<h1>Generic Page</h1>
+				<h1>Register Page</h1>
 			</div>
-
 		<!-- Main -->
 			<section id="main" class="wrapper">
 				<div class="inner">
 					<div class="content">						
 						<form method="post" enctype="multipart/form-data" action="/save">
-										<div class="row gtr-uniform">
-											<div class="col-6 col-12-xsmall">
-												<input type="text" name="name" id="name" value="" placeholder="Name" />
-											</div>
-											<div class="col-6 col-12-xsmall">
-												<input type="email" name="email" id="email" value="" placeholder="Email" />
-											</div>
-											<!-- Break -->
-											<div class="col-12">
-												<select name="category" id="category" required="">
-													<option value="">- Select -</option>
-													<option value="alpha">Option alpha</option>
-													<option value="beta">Option beta</option>
-													<option value="gamma">Option gamma</option>
-													<option value="delta">Option delta</option>
-													<option value="epsilon">Option epsilon</option>
-													<option value="zeta">Option zeta</option>
-													<option value="eta">Option eta</option>
-													<option value="theta">Option theta</option>
-												</select>
-											</div>
-											<!-- Break -->
-											<div class="col-4 col-12-small">
-												<input type="radio" id="radio-alpha" name="radio" value="Radio alpha" checked="">
-												<label for="radio-alpha">Radio alpha</label>
-											</div>
-											<div class="col-4 col-12-small">
-												<input type="radio" id="radio-beta" name="radio" value="Radio beta">
-												<label for="radio-beta">Radio beta</label>
-											</div>
-											<div class="col-4 col-12-small">
-												<input type="radio" id="radio-gamma" name="radio" value="Radio gamma">
-												<label for="radio-gamma">Radio gamma</label>
-											</div>
-											<!-- Break -->
-											<div class="col-6 col-12-small">
-												<input type="checkbox" id="checkbox-alpha" name="checkbox" value="Checkbox alpha" required="">
-												<label for="checkbox-alpha">Checkbox alpha</label>
-											</div>
-											<div class="col-6 col-12-small">
-												<input type="checkbox" id="checkbox-beta" name="checkbox" value="Checkbox beta">
-												<label for="checkbox-beta">Checkbox beta</label>
-											</div>
-											<!-- Break -->
-											<div class="col-12">
-												<textarea name="textarea" id="textarea" placeholder="Alpha beta gamma delta" rows="6"></textarea>
-											</div>
+							<div class="row gtr-uniform">
+								<div class="col-6 col-12-xsmall">
+									<input type="text" name="name" id="name" value="" placeholder="Name" />
+								</div>
+								<div class="col-6 col-12-xsmall">
+									<input type="email" name="email" id="email" value="" placeholder="Email" />
+								</div>
+								<!-- Break -->
+								<div class="col-12">
+									<select name="category" id="category" required="">
+										<option value="">- Select -</option>
+										<option value="alpha">Option alpha</option>
+										<option value="beta">Option beta</option>
+										<option value="gamma">Option gamma</option>
+										<option value="delta">Option delta</option>
+										<option value="epsilon">Option epsilon</option>
+										<option value="zeta">Option zeta</option>
+										<option value="eta">Option eta</option>
+										<option value="theta">Option theta</option>
+									</select>
+								</div>
+								<!-- Break -->
+								<div class="col-4 col-12-small">
+									<input type="radio" id="radio-alpha" name="radio" value="Radio alpha" checked="">
+									<label for="radio-alpha">Radio alpha</label>
+								</div>
+								<div class="col-4 col-12-small">
+									<input type="radio" id="radio-beta" name="radio" value="Radio beta">
+									<label for="radio-beta">Radio beta</label>
+								</div>
+								<div class="col-4 col-12-small">
+									<input type="radio" id="radio-gamma" name="radio" value="Radio gamma">
+									<label for="radio-gamma">Radio gamma</label>
+								</div>
+								<!-- Break -->
+								<div class="col-6 col-12-small">
+									<input type="checkbox" id="checkbox-alpha" name="checkbox" value="Checkbox alpha" required="">
+									<label for="checkbox-alpha">Checkbox alpha</label>
+								</div>
+								<div class="col-6 col-12-small">
+									<input type="checkbox" id="checkbox-beta" name="checkbox" value="Checkbox beta">
+									<label for="checkbox-beta">Checkbox beta</label>
+								</div>
+								<!-- Break -->
+								<div class="col-12">
+									<textarea name="textarea" id="textarea" placeholder="Alpha beta gamma delta" rows="6"></textarea>
+								</div>
 
-											<div class="col-12">
-												<select name="country" id="category" required="">
-													<option value="">- Select -</option>
-													<% for(var a=0;a<country.length;a++) {%>
-														<option value="<%=country[a].id%>"><%=country[a].name%></option>
-													<%}%>													
-												</select>
-											</div>
-											<div class="col-12">
-												<select name="state" id="category" required="">
-																									
-												</select>
-											</div>
+								<div class="col-12">
+									<select name="country" id="category" required="">
+										<option value="">- Select -</option>
+										<% for(var a=0;a<country.length;a++) {%>
+											<option value="<%=country[a].id%>"><%=country[a].name%></option>
+										<%}%>													
+									</select>
+								</div>
+								<div class="col-12">
+									<select name="state" id="category" required="">
+																						
+									</select>
+								</div>
 
-											<div class="col-12">
-												<select name="city" id="category" required="">
-																									
-												</select>
-											</div>
+								<div class="col-12">
+									<select name="city" id="category" required="">
+																						
+									</select>
+								</div>
 
-											<div class="col-12">
-												<input type="file" name="file" required="">
-											</div>
-											<div class="col-12">
-												<input type=password name=password placeholder="password">
-											</div>											<!-- Break -->
-											<div class="col-12">
-												<ul class="actions">
-													<li><input type="submit" value="Submit Form" class="primary" /></li>
-													<li><input type="reset" value="Reset" /></li>
-												</ul>
-											</div>
-										</div>
-									</form>
+								<div class="col-12">
+									<input type="file" name="file" required="">
+								</div>
+								<div class="col-12">
+									<input type=password name=password placeholder="password">
+								</div>											<!-- Break -->
+								<div class="col-12">
+									<ul class="actions">
+										<li><input type="submit" value="Register" class="primary" /></li>
+										<!-- <li><input type="reset" value="Reset" /></li> -->
+									</ul>
+								</div>
+							</div>
+						</form>
 					</div>
 				</div>
 			</section>
-
 		<!-- Footer -->
 		 <%-include('templates/footer')%>
 		 <script type="text/javascript">
 		 	$(document).ready(function(){
 		 		$("select[name=country]").change(function(){
-			 		var key = $(this).val()
+			 		var key = $(this).val()			 		
+			 		$("select[name=city]").html('<option disabled>City not found</option>')
 					$.ajax({
 			 			method:"POST",
 			 			url:"/getstate",
@@ -130,12 +122,18 @@
 			 			success:function(res,responcetext){
 			 				let resparse = JSON.parse(res);
 			 				let resultget=resparse.result
-							let ary=""
-							for(var a=0;a<resultget.length;a++){
-								console.log(resultget[a].name)
-								ary += "<option value="+resultget[a].id+">"+resultget[a].name+"</option>"
+			 				console.log(resultget.length)
+			 				if(resultget.length>0){
+								let ary=""
+								for(var a=0;a<resultget.length;a++){
+									console.log(resultget[a].name)
+									ary += "<option value="+resultget[a].id+">"+resultget[a].name+"</option>"
+								}
+								$("select[name=state]").html(ary)
+							}else
+							{
+								$("select[name=state]").html('<option disabled>State not found</option>')
 							}
-							$("select[name=state]").html(ary)
 			 			},
 			 			error:function(err,responce){
 			 				console.log("*****");
@@ -155,12 +153,16 @@
 			 			success:function(res,responcetext){
 			 				let resparse = JSON.parse(res);
 			 				let resultget=resparse.result
-							let ary=""
-							for(var a=0;a<resultget.length;a++){
-								console.log(resultget[a].name)
-								ary += "<option value="+resultget[a].id+">"+resultget[a].name+"</option>"
+			 				if(resultget.length>0){
+								let ary=""
+								for(var a=0;a<resultget.length;a++){
+									console.log(resultget[a].name)
+									ary += "<option value="+resultget[a].id+">"+resultget[a].name+"</option>"
+								}
+								$("select[name=city]").html(ary)
+							}else{
+								$("select[name=city]").html('<option disabled>City not found</option>')
 							}
-							$("select[name=city]").html(ary)
 			 			},
 			 			error:function(err,responce){
 			 				console.log("*****");
@@ -169,8 +171,7 @@
 			 	})
 		 	})
 		 </script>
-
 		<!-- Scripts -->
-			<%-include('templates/footerjs')%>
+		<%-include('templates/footerjs')%>
 	</body>
 </html>
