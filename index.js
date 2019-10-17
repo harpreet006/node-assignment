@@ -43,13 +43,22 @@ app.get('/elements',function(req,res){
 app.post("/getstate",function(req,res){	
 	sql="select * from states where country_id="+req.body.datakey+""	
 	conn.query(sql,function(req,responce){
-		/*var resdata=responce
-		let ary=""
-		for(var a=0;a<responce.length;a++){
-			ary += "<option value="+responce[a].id+">"+responce[a].name+"</option>"
-		}
-		res.send(responce)*/
-		
+		if(responce.length){
+			res.send({status:true,result:responce})
+		}else{
+			res.send({status:false,result:'result not found'})			
+		}	
+	})	
+})
+
+app.post("/getcity",function(req,res){	
+	sql="select * from cities where state_id="+req.body.datakey+""	
+	conn.query(sql,function(req,responce){
+		if(responce.length){
+			res.send({status:true,result:responce})
+		}else{
+			res.send({status:false,result:'result not found'})			
+		}	
 	})	
 })
 app.get('/register',function(req,res){

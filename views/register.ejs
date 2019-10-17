@@ -91,6 +91,12 @@
 											</div>
 
 											<div class="col-12">
+												<select name="city" id="category" required="">
+																									
+												</select>
+											</div>
+
+											<div class="col-12">
 												<input type="file" name="file" required="">
 											</div>
 											<div class="col-12">
@@ -121,12 +127,40 @@
 			 			cache:true,
 			 			header:{contentType: 'application/json'},
 			 			dataType:"text",
-			 			success:function(err,responce){
-			 				try{
-			 					console.log("welcome")
-			 				}catch(err){
-			 					console.log("cause error")
-			 				}
+			 			success:function(res,responcetext){
+			 				let resparse = JSON.parse(res);
+			 				let resultget=resparse.result
+							let ary=""
+							for(var a=0;a<resultget.length;a++){
+								console.log(resultget[a].name)
+								ary += "<option value="+resultget[a].id+">"+resultget[a].name+"</option>"
+							}
+							$("select[name=state]").html(ary)
+			 			},
+			 			error:function(err,responce){
+			 				console.log("*****");
+			 			}
+			 		})
+			 	})
+
+			 	$("select[name=state]").change(function(){
+			 		let key = $(this).val()
+					$.ajax({
+			 			method:"POST",
+			 			url:"/getcity",
+			 			data:{datakey:key},
+			 			cache:true,
+			 			header:{contentType: 'application/json'},
+			 			dataType:"text",
+			 			success:function(res,responcetext){
+			 				let resparse = JSON.parse(res);
+			 				let resultget=resparse.result
+							let ary=""
+							for(var a=0;a<resultget.length;a++){
+								console.log(resultget[a].name)
+								ary += "<option value="+resultget[a].id+">"+resultget[a].name+"</option>"
+							}
+							$("select[name=city]").html(ary)
 			 			},
 			 			error:function(err,responce){
 			 				console.log("*****");
