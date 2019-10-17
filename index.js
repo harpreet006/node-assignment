@@ -46,7 +46,7 @@ app.post("/getstate",function(req,res){
 		if(responce.length){
 			res.send({status:true,result:responce})
 		}else{
-			res.send({status:false,result:'result not found'})			
+			res.send({status:false,result:''})			
 		}	
 	})	
 })
@@ -57,7 +57,7 @@ app.post("/getcity",function(req,res){
 		if(responce.length){
 			res.send({status:true,result:responce})
 		}else{
-			res.send({status:false,result:'result not found'})			
+			res.send({status:false,result:''})			
 		}	
 	})	
 })

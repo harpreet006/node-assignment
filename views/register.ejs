@@ -130,12 +130,16 @@
 			 			success:function(res,responcetext){
 			 				let resparse = JSON.parse(res);
 			 				let resultget=resparse.result
-							let ary=""
-							for(var a=0;a<resultget.length;a++){
-								console.log(resultget[a].name)
-								ary += "<option value="+resultget[a].id+">"+resultget[a].name+"</option>"
+			 				if(resultget.length>0){
+								let ary=""
+								for(var a=0;a<resultget.length;a++){
+									// console.log(resultget[a].name)
+									ary += "<option value="+resultget[a].id+">"+resultget[a].name+"</option>"
+								}
+								$("select[name=state]").html(ary)
+							}else{
+								$("select[name=state]").html("<option disabled>No country found</option>")		
 							}
-							$("select[name=state]").html(ary)
 			 			},
 			 			error:function(err,responce){
 			 				console.log("*****");
@@ -154,13 +158,18 @@
 			 			dataType:"text",
 			 			success:function(res,responcetext){
 			 				let resparse = JSON.parse(res);
-			 				let resultget=resparse.result
-							let ary=""
-							for(var a=0;a<resultget.length;a++){
-								console.log(resultget[a].name)
-								ary += "<option value="+resultget[a].id+">"+resultget[a].name+"</option>"
+			 				let resultget = resparse.result
+			 				// console.log(resultget,"***")
+			 				if(resultget.length>0){
+								let ary=""
+								for(var a=0;a<resultget.length;a++){
+									// console.log(resultget[a].name)
+									ary += "<option value="+resultget[a].id+">"+resultget[a].name+"</option>"
+								}
+								$("select[name=city]").html(ary)
+							}else{
+								$("select[name=city]").html("<option disabled>No state found</option>")	
 							}
-							$("select[name=city]").html(ary)
 			 			},
 			 			error:function(err,responce){
 			 				console.log("*****");
