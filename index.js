@@ -3,7 +3,6 @@ var app = express();
 var http = require('http');
 var url = require('url');
 var path = require('path');
-var mysql = require('mysql');
 /* file upload script  start*/
 var multer  =   require('multer');
 var storage =   multer.diskStorage({
@@ -15,31 +14,23 @@ var storage =   multer.diskStorage({
   }
 });
 var upload = multer({ storage : storage});
-
 /* file upload script  start */
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
-// app.set('Port',process.env.port||8000)	
-app.set('port', process.env.PORT || 8002);
+app.set('port', process.env.PORT || 8002);	
 app.set('views',path.join(__dirname,'views'))
 app.set('view engine', 'ejs');
 app.set(express.json())
 app.use(express.static(path.join(__dirname,'public')))
-var conn = mysql.createConnection({
-	host:"localhost",
-	user:"root",
-	password:"ourdesignz",
-	database:"node_crud_1"
-})
-//console.log(conn,"")
+const  connection = require('./model/connection');
+var conn = connection.setconn
 app.get('/',function(req,res){
 	res.render('index')
 })
 app.get('/elements',function(req,res){
 	res.render('elements')
 })
-
 app.post("/getstate",function(req,res){	
 	sql="select * from states where country_id="+req.body.datakey+""	
 	conn.query(sql,function(req,responce){
