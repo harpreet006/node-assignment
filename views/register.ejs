@@ -111,7 +111,8 @@
 		 	$(document).ready(function(){
 		 		$("select[name=country]").change(function(){
 			 		var key = $(this).val()			 		
-			 		$("select[name=city]").html('<option disabled>City not found</option>')
+			 		$("select[name=state]").html('<option disabled>State not Available</option>')
+			 		$("select[name=city]").html('<option disabled>City not Available</option>')
 					$.ajax({
 			 			method:"POST",
 			 			url:"/getstate",
@@ -121,18 +122,15 @@
 			 			dataType:"text",
 			 			success:function(res,responcetext){
 			 				let resparse = JSON.parse(res);
-			 				let resultget=resparse.result
-			 				console.log(resultget.length)
+			 				let resultget=resparse.result;
 			 				if(resultget.length>0){
 								let ary=""
 								for(var a=0;a<resultget.length;a++){
-									console.log(resultget[a].name)
 									ary += "<option value="+resultget[a].id+">"+resultget[a].name+"</option>"
 								}
 								$("select[name=state]").html(ary)
-							}else
-							{
-								$("select[name=state]").html('<option disabled>State not found</option>')
+							}else{
+								$("select[name=state]").html("<option disabled>No country available</option>")
 							}
 			 			},
 			 			error:function(err,responce){
@@ -152,16 +150,15 @@
 			 			dataType:"text",
 			 			success:function(res,responcetext){
 			 				let resparse = JSON.parse(res);
-			 				let resultget=resparse.result
+			 				let resultget = resparse.result
 			 				if(resultget.length>0){
 								let ary=""
 								for(var a=0;a<resultget.length;a++){
-									console.log(resultget[a].name)
 									ary += "<option value="+resultget[a].id+">"+resultget[a].name+"</option>"
 								}
 								$("select[name=city]").html(ary)
 							}else{
-								$("select[name=city]").html('<option disabled>City not found</option>')
+								$("select[name=city]").html("<option disabled>No state found</option>")
 							}
 			 			},
 			 			error:function(err,responce){
