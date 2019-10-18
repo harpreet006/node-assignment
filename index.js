@@ -7,7 +7,7 @@ var path = require('path');
 var multer  =   require('multer');
 var storage =   multer.diskStorage({
   destination: function (req, file, callback) {
-    callback(null, './uploads');
+    callback(null, './public/uploads');
   },
   filename: function (req, file, callback) {
     callback(null, (file.filename =file.originalname));
@@ -18,7 +18,7 @@ var upload = multer({ storage : storage});
 var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
-app.set('port', process.env.PORT || 8002);	
+app.set('port', process.env.PORT || 8002);
 app.set('views',path.join(__dirname,'views'))
 app.set('view engine', 'ejs');
 app.set(express.json())
@@ -31,26 +31,26 @@ app.get('/',function(req,res){
 app.get('/elements',function(req,res){
 	res.render('elements')
 })
-app.post("/getstate",function(req,res){	
+app.post("/getstate",function(req,res){
 	sql="select * from states where country_id="+req.body.datakey+""	
 	conn.query(sql,function(req,responce){
 		if(responce.length){
 			res.send({status:true,result:responce})
 		}else{
-			res.send({status:false,result:''})			
-		}	
-	})	
+			res.send({status:false,result:''})
+		}
+	})
 })
 
-app.post("/getcity",function(req,res){	
-	sql="select * from cities where state_id="+req.body.datakey+""	
+app.post("/getcity",function(req,res){
+	sql="select * from cities where state_id="+req.body.datakey+""
 	conn.query(sql,function(req,responce){
 		if(responce.length){
 			res.send({status:true,result:responce})
 		}else{
-			res.send({status:false,result:''})			
-		}	
-	})	
+			res.send({status:false,result:''})
+		}
+	})
 })
 app.get('/register',function(req,res){
 	let sql ="select * from countries"
@@ -68,12 +68,12 @@ app.get('/register',function(req,res){
 	res.render('register',{country:responcedata})
 	})
 })
-app.post('/ulogin',function(req,res){	
+app.post('/ulogin',function(req,res){
 	let username=req.body.lname
 	let password=req.body.lpassword
 	let queryd='select * from users where name="'+username+'" and password="'+password+'"';	
 	conn.query(queryd,function(err,responce){
-		try{			
+		try{
 			if(responce.length){
 			res.redirect('/list');
 			}else{
@@ -87,7 +87,6 @@ app.post('/ulogin',function(req,res){
 app.get('/userlogin',function(req,res){
 	res.render('login');
 })
-
 app.post('/search',function(req,res){
 	let name = req.body.keyword
 	sql="SELECT * FROM users WHERE name LIKE '"+name+"%' ";
@@ -103,36 +102,35 @@ app.post('/search',function(req,res){
 		}
 	})
 })
-
 app.get('/list',function(req,res){
-	let query='select * from users';	
-	conn.query(query,function(err,responce){	
+	let query='select * from users';
+	conn.query(query,function(err,responce){
 		res.render('list',{data:responce})
 	})
 })
-
 app.get('/edit/:userid',function(req,res){
-	let query='select * from users where id="'+req.params.userid+'"';	
+	let query='select * from users where id="'+req.params.userid+'"';
 	conn.query(query,function(err,responce){
 		res.render('edit',{data:responce})
 	})
 })
-
-app.post('/update',function(req,res){
-	sql="UPDATE users SET name = '"+req.body.name+"', email = '"+req.body.email+"', category='"+req.body.category+"',radio='"+req.body.radio+"',checkbox='"+req.body.checkbox+"', textarea='"+req.body.textarea+"',password='"+req.body.password+"',file='"+req.body.file+"' WHERE id ='"+req.body.id+"'"
+app.post('/update',upload.single('file'),function(req,res){
+	console.log(req)
+	file=(req.file)?req.file.filename:req.body.file
+	console.log("hello",req.body.file)
+	sql="UPDATE users SET name = '"+req.body.name+"', email = '"+req.body.email+"', category='"+req.body.category+"',radio='"+req.body.radio+"',checkbox='"+req.body.checkbox+"', textarea='"+req.body.textarea+"',password='"+req.body.password+"',file='"+file+"' WHERE id ='"+req.body.id+"'"
 	conn.query(sql,function(err,responce){
 		res.redirect('list')
 	})
 })
 
 app.get('/delete/:userid',function(req,res){
-	let query='delete from users where id="'+req.params.userid+'"';		
+	let query='delete from users where id="'+req.params.userid+'"';
 	console.log(query)
-	conn.query(query,function(err,responce){	
+	conn.query(query,function(err,responce){
 		res.redirect('/list')
 	})
 })
-
 app.post('/save', upload.single('file'),function(req,res,next){
 	let name = req.body.name
 	let email = req.body.email
@@ -159,11 +157,9 @@ app.post('/save', upload.single('file'),function(req,res,next){
 	})
 	res.redirect("/register")
 })
-
 app.get('/generic',function(req,res){
 	res.render('generic')
 })
-
 http.createServer(app).listen(app.get('port'),function(){
 	console.log('express.server'+app.get('port'))
 })
