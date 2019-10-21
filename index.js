@@ -1,21 +1,13 @@
-var express = require('express');
-var app = express();
-var http = require('http');
-var url = require('url');
-var path = require('path');
+const express = require('express');
+const app = express();
+const http = require('http');
+const url = require('url');
+const path = require('path');
 /* file upload script  start*/
-var multer  =   require('multer');
-var storage =   multer.diskStorage({
-  destination: function (req, file, callback) {
-    callback(null, './public/uploads');
-  },
-  filename: function (req, file, callback) {
-    callback(null, (file.filename =file.originalname));
-  }
-});
-var upload = multer({ storage : storage});
+const fileUpload = require('express-fileupload');
+app.use(fileUpload());
 /* file upload script  start */
-var bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }))
 app.set('port', process.env.PORT || 8002);
@@ -114,11 +106,11 @@ app.get('/edit/:userid',function(req,res){
 		res.render('edit',{data:responce})
 	})
 })
-app.post('/update',upload.single('file'),function(req,res){
-	console.log(req)
-	file=(req.file)?req.file.filename:req.body.file
-	console.log("hello",req.body.file)
-	sql="UPDATE users SET name = '"+req.body.name+"', email = '"+req.body.email+"', category='"+req.body.category+"',radio='"+req.body.radio+"',checkbox='"+req.body.checkbox+"', textarea='"+req.body.textarea+"',password='"+req.body.password+"',file='"+file+"' WHERE id ='"+req.body.id+"'"
+app.post('/update',function(req,res){
+	console.log(req.files,"************")
+	//file=(req.file)?req.file.filename:req.body.file
+	// console.log("hello",req.body.file)
+	sql="UPDATE users SET name = '"+req.body.name+"', email = '"+req.body.email+"', category='"+req.body.category+"',radio='"+req.body.radio+"',checkbox='"+req.body.checkbox+"', textarea='"+req.body.textarea+"',password='"+req.body.password+"',file='' WHERE id ='"+req.body.id+"'"
 	conn.query(sql,function(err,responce){
 		res.redirect('list')
 	})
@@ -131,7 +123,21 @@ app.get('/delete/:userid',function(req,res){
 		res.redirect('/list')
 	})
 })
-app.post('/save', upload.single('file'),function(req,res,next){
+app.post('/save',function(req,res,next){
+	if(req.files.file){
+		var  fileupload = req.files.file;
+		var filevalue=""
+		var mvresponce=fileupload.mv('./public/uploads/'+req.files.file, function(err) {
+		 	if(err){
+		 		console.log("error")
+		 	}else{	
+		 		console.log("file upload")
+		 	}
+		 })
+		console.log(mvresponce,'File upload action')
+	}else{
+		console.log('File not upload');
+	}
 	let name = req.body.name
 	let email = req.body.email
 	let category = req.body.category
@@ -139,11 +145,11 @@ app.post('/save', upload.single('file'),function(req,res,next){
 	let checkbox = req.body.checkbox
 	let textarea = req.body.textarea
 	let password = req.body.password
-	var file= req.file.filename
+	// var file= req.file.filename
 	var state= req.body.state
 	var city= req.body.city
 	var country= req.body.country
-	sql= "insert into users (name,email,category,radio,checkbox,textarea,password,file,state,city,country)VALUES('"+name+"','"+email+"','"+category+"','"+radio+"','"+checkbox+"','"+textarea+"','"+password+"','"+file+"','"+state+"','"+city+"','"+country+"')";
+	sql= "insert into users (name,email,category,radio,checkbox,textarea,password,file,state,city,country)VALUES('"+name+"','"+email+"','"+category+"','"+radio+"','"+checkbox+"','"+textarea+"','"+password+"','','"+state+"','"+city+"','"+country+"')";
 	conn.query(sql,function(req,res){
 		try{
 			if(res){
