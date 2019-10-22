@@ -1,31 +1,82 @@
 <footer id="footer">
-				<div class="inner">
-					<div class="content">
-						<section>
-							<h3>Accumsan montes viverra</h3>
-							<p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus ornare mi ut ante amet placerat aliquet. Volutpat eu sed ante lacinia sapien lorem accumsan varius montes viverra nibh in adipiscing. Lorem ipsum dolor vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing sed feugiat eu faucibus. Integer ac sed amet praesent. Nunc lacinia ante nunc ac gravida.</p>
-						</section>
-						<section>
-							<h4>Sem turpis amet semper</h4>
-							<ul class="alt">
-								<li><a href="#">Dolor pulvinar sed etiam.</a></li>
-								<li><a href="#">Etiam vel lorem sed amet.</a></li>
-								<li><a href="#">Felis enim feugiat viverra.</a></li>
-								<li><a href="#">Dolor pulvinar magna etiam.</a></li>
-							</ul>
-						</section>
-						<section>
-							<h4>Magna sed ipsum</h4>
-							<ul class="plain">
-								<li><a href="#"><i class="icon fa-twitter">&nbsp;</i>Twitter</a></li>
-								<li><a href="#"><i class="icon fa-facebook">&nbsp;</i>Facebook</a></li>
-								<li><a href="#"><i class="icon fa-instagram">&nbsp;</i>Instagram</a></li>
-								<li><a href="#"><i class="icon fa-github">&nbsp;</i>Github</a></li>
-							</ul>
-						</section>
-					</div>
-					<div class="copyright">
-						&copy; Untitled. Photos <a href="https://unsplash.co">Unsplash</a>, Video <a href="https://coverr.co">Coverr</a>.
-					</div>
-				</div>
-			</footer>
+	<div class="inner">
+		<div class="content">
+			<section>
+				<h3>Accumsan montes viverra</h3>
+				<p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus ornare mi ut ante amet placerat aliquet. Volutpat eu sed ante lacinia sapien lorem accumsan varius montes viverra nibh in adipiscing. Lorem ipsum dolor vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing sed feugiat eu faucibus. Integer ac sed amet praesent. Nunc lacinia ante nunc ac gravida.</p>
+			</section>
+			<section>
+				<h4>Sem turpis amet semper</h4>
+				<ul class="alt">
+					<li><a href="#">Dolor pulvinar sed etiam.</a></li>
+					<li><a href="#">Etiam vel lorem sed amet.</a></li>
+					<li><a href="#">Felis enim feugiat viverra.</a></li>
+					<li><a href="#">Dolor pulvinar magna etiam.</a></li>
+				</ul>
+			</section>
+			<section>
+				<h4>Magna sed ipsum</h4>
+				<ul class="plain">
+					<li><a href="#"><i class="icon fa-twitter">&nbsp;</i>Twitter</a></li>
+					<li><a href="#"><i class="icon fa-facebook">&nbsp;</i>Facebook</a></li>
+					<li><a href="#"><i class="icon fa-instagram">&nbsp;</i>Instagram</a></li>
+					<li><a href="#"><i class="icon fa-github">&nbsp;</i>Github</a></li>
+				</ul>
+			</section>
+		</div>
+		<div class="copyright">
+			&copy; Untitled. Photos <a href="https://unsplash.co">Unsplash</a>, Video <a href="https://coverr.co">Coverr</a>.
+		</div>
+	</div>
+</footer>
+ <script type="text/javascript">
+	function ajaxhit(postaction,inputvalue,fieldname,message,gettext=null){
+		$.ajax({
+			method:"POST",
+			url:postaction,
+			data:{datakey:inputvalue},
+			cache:true,
+			header:{contentType: 'application/json'},
+			dataType:"text",
+			success:function(res,responcetext){
+				let resparse = JSON.parse(res);
+				let resultget=resparse.result;
+				if(resultget.length>0){
+				let ary=""
+				for(var a=0;a<resultget.length;a++){
+					ary += "<option value="+resultget[a].id+">"+resultget[a].name+"</option>"
+				}
+				if(gettext !=""){	
+					$("select[name=country]").removeAttr('class')	
+					if($("select[name=country]").parents().find('img').length>0){
+						$("select[name=country]").parents().find('img').remove()
+					}								
+					$("select[name=country]").addClass(gettext)
+					let imgpath = '/flags/'+gettext+'.png'
+					$( "select[name=country]" ).before( "<img style='width: 27px;top: 14px;position: relative;' src='"+imgpath+"'>" )
+				}
+				$("select[name="+fieldname+"]").html(ary)
+			}else{
+				$("select[name="+fieldname+"]").html("<option disabled>"+message+"</option>")
+			}
+			},
+			error:function(err,responce){
+				console.log("*****");
+			}
+ 	})
+	}		 
+	$(document).ready(function(){
+		$("select[name=country]").change(function(){
+ 		let key = $(this).val()
+ 		let gettext = $("select[name=country] option:selected").data('actiona');
+ 		var optionText = $("#category1 option:selected").text();
+ 		$("select[name=state]").html('<option disabled>State not Available</option>')
+ 		$("select[name=city]").html('<option disabled>City not Available</option>')
+ 		ajaxhit('/getstate',key,'state','No country available',gettext)
+ 	})
+ 	$("select[name=state]").change(function(){
+ 		let key = $(this).val()
+ 		ajaxhit('/getcity',key,'city','No state action found','')
+ 	})
+	})
+</script>

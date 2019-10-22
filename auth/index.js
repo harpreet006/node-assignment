@@ -50,7 +50,7 @@ function (req, username, password, done) {
         if(responce){
             return done(null, responce[0]);
         }else{
-             return done(null, false, {"message": "User not found."});
+            return done(null, false, {"message": "User not found."});
         }
     })
     /*if (username === users[0].username && password === users[0].password) {

@@ -111,58 +111,7 @@
 				</div>
 			</section>
 		<!-- Footer -->
-		 <%-include('templates/footer')%>
-		 <script type="text/javascript">
-		 	function ajaxhit(postaction,inputvalue,fieldname,message,gettext=null){
-		 		$.ajax({
-		 			method:"POST",
-		 			url:postaction,
-		 			data:{datakey:inputvalue},
-		 			cache:true,
-		 			header:{contentType: 'application/json'},
-		 			dataType:"text",
-		 			success:function(res,responcetext){
-		 				let resparse = JSON.parse(res);
-		 				let resultget=resparse.result;
-		 				if(resultget.length>0){
-							let ary=""
-							for(var a=0;a<resultget.length;a++){
-								ary += "<option value="+resultget[a].id+">"+resultget[a].name+"</option>"
-							}
-							if(gettext !=""){	
-								$("select[name=country]").removeAttr('class')	
-								if($("select[name=country]").parents().find('img').length>0){
-									$("select[name=country]").parents().find('img').remove()
-								}								
-								$("select[name=country]").addClass(gettext)
-								let imgpath = '/flags/'+gettext+'.png'
-								$( "select[name=country]" ).before( "<img style='width: 27px;top: 14px;position: relative;' src='"+imgpath+"'>" )
-							}
-							$("select[name="+fieldname+"]").html(ary)
-						}else{
-							$("select[name="+fieldname+"]").html("<option disabled>"+message+"</option>")
-						}
-		 			},
-		 			error:function(err,responce){
-		 				console.log("*****");
-		 			}
-			 	})
-		 	}		 
-		 	$(document).ready(function(){
-		 		$("select[name=country]").change(function(){
-			 		let key = $(this).val()
-			 		let gettext = $("select[name=country] option:selected").data('actiona');
-			 		var optionText = $("#category1 option:selected").text();
-			 		$("select[name=state]").html('<option disabled>State not Available</option>')
-			 		$("select[name=city]").html('<option disabled>City not Available</option>')
-			 		ajaxhit('/getstate',key,'state','No country available',gettext)
-			 	})
-			 	$("select[name=state]").change(function(){
-			 		let key = $(this).val()
-			 		ajaxhit('/getcity',key,'city','No state action found','')
-			 	})
-		 	})
-		 </script>
+		 <%-include('templates/footer')%>		
 		<!-- Scripts -->
 		<%-include('templates/footerjs')%>
 	</body>

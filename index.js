@@ -16,8 +16,16 @@ app.set('view engine', 'ejs');
 app.set(express.json())
 app.use(express.static(path.join(__dirname,'public')))
 const  connection = require('./model/connection');
+const  country = require('./model/country');
 var conn = connection.setconn
 app.get('/',function(req,res){
+	country.greet(function(err,result){
+	if(err) reject('Result not found')
+	if(result)
+		resolve(result)
+	else
+		reject("Result not found")
+})
 	res.render('index')
 })
 app.get('/elements',function(req,res){
@@ -100,17 +108,62 @@ app.get('/list',function(req,res){
 		res.render('list',{data:responce})
 	})
 })
-app.get('/edit/:userid',function(req,res){
+app.get('/edit/:userid',async function(req,res){
 	let query='select * from users where id="'+req.params.userid+'"';
+	let promisecountry = new Promise(function(resolve,reject){
+		country.getcountry(function(err,result){
+			if(err){
+				console.log("file not found")
+				reject('file not found')
+			}
+			if(result){				 
+				resolve(result)
+				//console.log(result,"The file is found")
+			}
+		})
+	})
+/*	let promisestate = new Promise(function(resolve,reject){
+		country.getstates(function(err,responce){
+			if(err){
+				reject("record not found")
+				console.log('Record is not found')
+			}
+			if(responce){
+				resolve(responce)
+				console.log("Record Found")
+			}
+		})
+	 })*/
+/*	let promisecities=new Promise(function(resolve,reject){
+		country.getcitys(function(err,responce){
+			if(err){
+				reject('Record not found')
+				console.log('record not found')
+			}
+			if(responce){
+				resolve(responce)
+				console.log('get the responce')
+			}else{
+				resolve('no record found')
+				console.log('record not able to get')
+			}
+		})
+	})*/
+	let religious={} // Declear the data base
+	religious.country = await promisecountry
+	//religious.states = await promisestate
+	//religious.cities = await promisecities
+	//getpromiss.then(res=>{getuser.users=res,console.log(res)})
 	conn.query(query,function(err,responce){
-		res.render('edit',{data:responce})
+		console.log(responce[0].state)
+		res.render('edit',{data:responce,religious:religious})
 	})
 })
 app.post('/update',function(req,res){
 	console.log(req.files,"************")
 	//file=(req.file)?req.file.filename:req.body.file
 	// console.log("hello",req.body.file)
-	sql="UPDATE users SET name = '"+req.body.name+"', email = '"+req.body.email+"', category='"+req.body.category+"',radio='"+req.body.radio+"',checkbox='"+req.body.checkbox+"', textarea='"+req.body.textarea+"',password='"+req.body.password+"',file='' WHERE id ='"+req.body.id+"'"
+	sql="UPDATE users SET name = '"+req.body.name+"', email = '"+req.body.email+"', category='"+req.body.category+"',radio='"+req.body.radio+"',checkbox='"+req.body.checkbox+"', textarea='"+req.body.textarea+"',password='"+req.body.password+"',file='',state='"+req.body.state+"',city='"+req.body.city+"',country='"+req.body.country+"' WHERE id ='"+req.body.id+"'"
 	conn.query(sql,function(err,responce){
 		res.redirect('list')
 	})
@@ -125,22 +178,21 @@ app.get('/delete/:userid',function(req,res){
 })
 app.post('/save',function(req,res,next){
 
-var fileupload="";
+var filename="";
 
 console.log(req.files.file);
 	if(req.files.file){
-		  fileupload = req.files.file;
+		fileupload = req.files.file;
 		var filevalue=""
-		var mvresponce=fileupload.mv('./public/uploads/'+req.files.file, function(err) {
+		fileupload.mv('./public/uploads/'+req.files.file, function(err) {
 		 	if(err){
-		 		console.log("error")
+		 		var filename = ''
 		 	}else{	
-		 		console.log("file upload")
+		 		var filename = req.files.file.name
 		 	}
 		 })
-		console.log(mvresponce,'File upload action')
 	}else{
-		console.log('File not upload');
+		var filename = req.files.file.name
 	}
 	let name = req.body.name
 	let email = req.body.email
@@ -149,7 +201,7 @@ console.log(req.files.file);
 	let checkbox = req.body.checkbox
 	let textarea = req.body.textarea
 	let password = req.body.password
-	 var file="";
+	var file="";
 	var state= req.body.state
 	var city= req.body.city
 	var country= req.body.country

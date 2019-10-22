@@ -68,10 +68,35 @@
 								<!-- Break -->
 								<div class="col-12">
 									<textarea name="textarea" id="textarea" placeholder="Alpha beta gamma delta" rows="6"><%=data[0].name%></textarea>
+								</div>							
+								<div class="col-12" style="display: -webkit-box">
+									<select name="country"  id="category1" required="">
+										<option value="">- Select -</option>
+										<%for(var c=0;c<religious.country.length;c++){%>
+											<%if(religious.country[c].id==data[0].country){%>
+												<option value="<%=religious.country[c].id%>" selected><%=religious.country[c].name%></option>	
+											<%}else{%>
+												<option value="<%=religious.country[c].id%>"><%=religious.country[c].name%></option>
+											<%}%> 								
+										<%}%>
+										<!-- religious -->						
+									</select>
+								</div>
+								<div class="col-12">
+									<select name="state" id="category"  required="">
+										<option></option>
+																						
+									</select>
+								</div>
+
+								<div class="col-12">
+									<select name="city" id="category" required=""><option></option>			
+									</select>
 								</div>
 								<div class="col-12">
 									<input type="file" name="file" value="<%=data[0].file%>">
 								</div>
+								
 								<div class="col-12">
 									<input type=password name=password placeholder="password" value="<%=data[0].password%>">
 								</div>											<!-- Break -->
