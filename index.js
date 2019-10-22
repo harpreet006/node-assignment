@@ -124,8 +124,12 @@ app.get('/delete/:userid',function(req,res){
 	})
 })
 app.post('/save',function(req,res,next){
+
+var fileupload="";
+
+console.log(req.files.file);
 	if(req.files.file){
-		var  fileupload = req.files.file;
+		  fileupload = req.files.file;
 		var filevalue=""
 		var mvresponce=fileupload.mv('./public/uploads/'+req.files.file, function(err) {
 		 	if(err){
@@ -145,11 +149,12 @@ app.post('/save',function(req,res,next){
 	let checkbox = req.body.checkbox
 	let textarea = req.body.textarea
 	let password = req.body.password
-	// var file= req.file.filename
+	 var file="";
 	var state= req.body.state
 	var city= req.body.city
 	var country= req.body.country
-	sql= "insert into users (name,email,category,radio,checkbox,textarea,password,file,state,city,country)VALUES('"+name+"','"+email+"','"+category+"','"+radio+"','"+checkbox+"','"+textarea+"','"+password+"','','"+state+"','"+city+"','"+country+"')";
+	console.log("ook"+fileupload);
+	sql= "insert into users (name,email,category,radio,checkbox,textarea,password,file,state,city,country)VALUES('"+name+"','"+email+"','"+category+"','"+radio+"','"+checkbox+"','"+textarea+"','"+password+"','"+file+"','"+state+"','"+city+"','"+country+"')";
 	conn.query(sql,function(req,res){
 		try{
 			if(res){

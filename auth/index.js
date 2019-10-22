@@ -4,21 +4,32 @@ var express         = require('express'),
     LocalStrategy   = require('passport-local').Strategy,
     bodyParser      = require('body-parser'),
     session         = require('express-session');
+    const  connection = require('./connection');
+    var conn = connection.setconn
+    conn.connect(function(err) {
+  if (err) {
+    return console.error('error: ' + err.message);
+  }
+ 
+  console.log('Connected to the MySQL server.');
+});
+ //   console.log(conn)
  
 // hardcoded users, ideally the users should be stored in a database
-var users = [
+/*var users = [
                 {
                     "id":1, "username":"amy", "password":"amyspassword",
                     "id":2, "username":"singh", "password":"singh"
                 }
-            ];
+            ];*/
  
 // passport needs ability to serialize and unserialize users out of session
 passport.serializeUser(function (user, done) {
-    done(null, users[0].id);
+    //console.log(user.id)
+    done(null, user.id);
 });
 passport.deserializeUser(function (id, done) {
-    done(null, users[0]);
+    done(null, id);
 });
  
 // passport local strategy for local-login, local refers to this app
@@ -33,11 +44,20 @@ function (req, username, password, done) {
   {
     var fieldName = req.body.remebmer;
     console.log(fieldName)
-    if (username === users[0].username && password === users[0].password) {
+    var sql= "select * from users where name='"+username+"' and password='"+password+"'"
+    console.log(sql)
+    conn.query(sql,function(req,responce){
+        if(responce){
+            return done(null, responce[0]);
+        }else{
+             return done(null, false, {"message": "User not found."});
+        }
+    })
+    /*if (username === users[0].username && password === users[0].password) {
             return done(null, users[0]);
         } else {
             return done(null, false, {"message": "User not found."});
-        }
+        }*/
   }
 }));
 
