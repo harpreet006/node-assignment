@@ -1,0 +1,45 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<div class="option-form">
+	<form method='post'>
+		<select name=country>
+			<%for(var a=0;a<options.length;a++){%>
+				<option value='<%=options[a].name%>'><%=options[a].name%></option>
+			<%}%>			 
+		</select>
+		<input type=text name=addoption>
+		<button id='addrole'>Add</button>
+		<button id='removerole'>Remove</button>
+	</form>	
+</div>
+<script>
+$(document).ready(function(){
+	function ajaxhit(action,data){
+		$.ajax({
+			url:action,
+			type:'POST',
+			data:{datakey:data},
+			cache:true,
+			dataType:'text',
+			success:function(responce){
+			var parsejson=JSON.parse(responce)
+			$('select[name=country]').html(parsejson.result)
+			$("input[name=addoption]").val('').focus()
+			},error(err){
+				console.log('data not able to move')
+			}
+		})
+	}
+	$("#addrole").click(function(){
+		ajaxhit('/save',$.trim($("input[name=addoption]").val()))
+		return false
+	})
+	$("#removerole").click(function(){
+		//$("input[name=addoption]").val($("select[name=country]").val())
+		ajaxhit('/delete',$("input[name=addoption]").val())		
+		return false
+	})
+	$("select[name=country]").click(function(){
+		$("input[name=addoption]").val($("select[name=country]").val())
+	})	
+})
+</script>
