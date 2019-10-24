@@ -1,0 +1,10 @@
+<form action='/Task/edit' method=post>
+	UserName<input type=text name=username value='<%=list[0].username%>'><br />
+	First Name<input type=text name=f_name value="<%=list[0].first_name%>"><br />
+	Last Name<input type=text name=l_name value="<%=list[0].last_name%>"><br />	 
+	Gender<input type=radio name=gender value=Male <% if(list[0].gender=='Male'){%>checked<%}%>>
+	<input type=radio name=gender value=Female <% if(list[0].gender=='Female'){%>checked<%}%>><br />
+	Password<input type=password name=password value="<%=list[0].password%>"></br>
+	<input type=hidden name=user_id value="<%=list[0].user_id%>"></br>
+	<input type=submit name=submit value=submit>
+</form>

@@ -1,0 +1,22 @@
+<table>
+<tr>
+	<th>UserName</th>
+	<th>FirstName</th>
+	<th>LastName</th>
+	<th>Gender</th>
+	<th>Status</th>
+	<th>Action</th>
+</tr>
+
+<%for(var a=0;a<listing.length;a++){%>
+	<tr>
+		<td><%=listing[a].username%></td>
+		<td><%=listing[a].first_name%></td>
+		<td><%=listing[a].last_name%></td>
+		<td><%=listing[a].gender%></td>
+		<td><%=listing[a].status%></td>
+		<td><a href="/Task/edit/<%=listing[a].user_id%>">Edit</a>/<a href="/Task/delete/<%=listing[a].user_id%>">Delete</a></td>
+	</tr>
+<%}%>
+
+<table>
