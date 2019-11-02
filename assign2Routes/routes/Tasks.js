@@ -32,13 +32,41 @@ router.post('/add',function(req,res,next){
 	Tasks.addTask(req.body,function(err,rows){
 		if(err){
 			res.json(err)
+		}else{			
+			res.redirect('/Task')
+		}
+	})
+})
+
+
+router.post('/deleteall',function(req,res,next){
+	Tasks.deleterecord(req.body.key,function(err,responce){
+		if(err){
+			console.log('Error Produced');
 		}else{
-			res.json(req.body)
+			res.send('ok')
+		}
+	})
+})
+
+router.post('/login',function(req,res,next){
+	/*console.log(req.body.fname);
+	console.log(req.body.password);*/
+	Tasks.userlogin(req.body,function(err,responce){
+		if(err){
+			console.log('Error Produced');
+		}else{
+			if(responce.length){
+				res.send('user successfullly login')				
+			}else{	
+				res.send('Login details failed')
+			}
 		}
 	})
 })
 
 router.get('/delete/:id',function(req,res,next){
+	console.log(req.params,",ulti check box")
 	Tasks.deleteTask(req.params.id,function(err,rows){
 		if(err){
 			res.json(err)

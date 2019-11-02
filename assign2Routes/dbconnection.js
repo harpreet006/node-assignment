@@ -4,7 +4,7 @@ var con = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "ourdesignz",
-  'database':'assign2Routes'
+  database:'assign2Routes'
 });
 
 con.connect(function(err) {

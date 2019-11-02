@@ -20,6 +20,13 @@ var Tasks={
 		console.log("update user_details set username='"+Editsave.username+"',first_name='"+Editsave.f_name+"',last_name='"+Editsave.l_name+"',gender='"+Editsave.gender+"',password='"+Editsave.password+"' where user_id='"+Editsave.user_id+"'")
 
 		return db.query("update user_details set username='"+Editsave.username+"',first_name='"+Editsave.f_name+"',last_name='"+Editsave.l_name+"',gender='"+Editsave.gender+"',password='"+Editsave.password+"' where user_id='"+Editsave.user_id+"'",callback)
+	},
+	deleterecord:function(key,callback){
+		//console.log(key,"***")
+		return db.query('delete from user_details where user_id=?',[key],callback)
+	},
+	userlogin:function(res,callback){ 
+		return db.query('select * from user_details where username="'+res.fname+'" and password="'+res.password+'"',callback)
 	}
 }
 module.exports=Tasks;
