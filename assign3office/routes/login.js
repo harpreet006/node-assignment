@@ -11,6 +11,18 @@ router.get('/register',function(req,res){
 router.get('/login',function(req,res){
 	res.send('welcome to login section');
 })
+
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
  
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function (err, user) {
+    done(err, user);
+  });
+});
+
+
 
 module.exports=router
