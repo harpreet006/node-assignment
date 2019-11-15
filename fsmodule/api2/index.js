@@ -3,10 +3,10 @@ var app = express();
 var  http= require('http');
 var fs = require("fs");
 var bodyParser = require('body-parser')
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+app.use(bodyParser.urlencoded({
   extended: true
 }));
-app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use( bodyParser.json() );
 var formidableMiddleware = require('express-formidable');
 app.use(formidableMiddleware());
 app.get('/',function(req,res){
@@ -39,6 +39,7 @@ app.post("/",function(req, res, next){
  		})		
  	})
 })
+
 app.get("/:id",function(req,res){
 fs.readFile('file.json',function(err,data){
  		let user= JSON.parse(data)
@@ -66,7 +67,6 @@ fs.readFile('file.json',function(err,data){
  				user.splice(index,1);
  			}
  		})
-
  		fs.writeFile('file.json', JSON.stringify(user), (err) => {
  			if(err) throw (err)
  			if(deleteStatus==0){
