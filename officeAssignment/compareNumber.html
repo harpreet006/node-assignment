@@ -1,0 +1,63 @@
+<form method="post" name="comparenumber" onsubmit="return largest()">
+	<div id="msg"></div>
+	<input type="text" name="a" placeholder="a">
+	<input type="text" name="b" placeholder="b">
+	<input type="text" name="c" placeholder="c">
+	<input type="submit" name="submit" value="submit">
+</form>
+
+<script type="text/javascript">
+	function checkInp(numberval)
+		{
+		var x=numberval
+		if (isNaN(x)) 
+		{			
+			return false;
+		}else{
+			return true
+		}
+	}
+	function largest()
+	{   
+
+		inputs = document.getElementsByTagName('input');
+		if(inputs['a'].value.trim()=="" || inputs['b'].value.trim()=="" || inputs['c'].value.trim()==""){
+			document.getElementById("msg").innerHTML="All fields are required"
+			return false			 
+		}else{			
+			if(!checkInp(inputs['a'].value)){
+				document.getElementById("msg").innerHTML="You shoold enter number"
+				return false
+			}else{
+
+			}
+			if(!checkInp(inputs['b'].value)){
+				document.getElementById("msg").innerHTML="You shoold enter number"
+				return false
+			}
+			if(!checkInp(inputs['c'].value)){
+				document.getElementById("msg").innerHTML="You shoold enter number"
+				return false
+			}
+			document.getElementById("msg").innerHTML=""
+		}
+
+		var num1, num2, num3;
+		num1 = Number(document.forms['comparenumber']['a'].value);
+		num2 = Number(document.forms['comparenumber']['b'].value);
+		num3 = Number(document.forms['comparenumber']['c'].value);
+
+		if(num1>=num2 && num1>=num3)
+		{
+			window.alert(num1+"-is greatest");
+		}
+		else if(num2>=num1 && num2>=num3)
+		{
+			window.alert(num2+"-is greatst");
+		}else{
+			window.alert(num3+"is greatest");
+		}
+		 
+		return false
+	} 
+</script>

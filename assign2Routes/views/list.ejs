@@ -1,6 +1,13 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<button type="button" class="btn">delete</button>
+<button type="button"><a href="/Task/register">Add User</a></button>
 <table>
 <tr>
+<<<<<<< HEAD
+	<th><select  onchange="checkAll(this)"><option value='1'>select all</option><option value='0'>Unselect</option></select></th>
+=======
 	<th><input type='checkbox'  onchange="checkAll(this)" name="chk[]"></th>
+>>>>>>> 381b1d401286587f75047560e258be15dd2fe27b
 	<th>UserName</th>
 	<th>FirstName</th>
 	<th>LastName</th>
@@ -10,19 +17,91 @@
 </tr>
 
 <%for(var a=0;a<listing.length;a++){%>
+<<<<<<< HEAD
+	<tr class="hide_<%=listing[a].user_id%>">
+		<td><input type=checkbox name=multicheck value=<%=listing[a].user_id%>></td>
+=======
 	<tr>
 		<td><input type='checkbox'></td>
+>>>>>>> 381b1d401286587f75047560e258be15dd2fe27b
 		<td><%=listing[a].username%></td>
 		<td><%=listing[a].first_name%></td>
 		<td><%=listing[a].last_name%></td>
 		<td><%=listing[a].gender%></td>
 		<td><%=listing[a].status%></td>
+<<<<<<< HEAD
+		<td><a href="/Task/edit/<%=listing[a].user_id%>">Edit</a></td>
+=======
 		<td><a href="/Task/edit/<%=listing[a].id%>">Edit</a>/<a href="/Task/delete/<%=listing[a].id%>">Delete</a></td>
+>>>>>>> 381b1d401286587f75047560e258be15dd2fe27b
 	</tr>
 <%}%>
 <button>Action</button>
 
 <table>
+<<<<<<< HEAD
+<script type="text/javascript">
+function checkAll(element) {
+	var selectedText = element.options[element.selectedIndex].innerHTML;
+    var selectedValue = element.value;
+	if(selectedValue==1){
+	    var items = document.getElementsByName('multicheck');
+	    for (var i = 0; i < items.length; i++) {
+	        if (items[i].type == 'checkbox')
+	            items[i].checked = true;
+	    }
+	}else{		
+		    var items = document.getElementsByName('multicheck');
+		    for (var i = 0; i < items.length; i++) {
+		        if (items[i].type == 'checkbox')
+		            items[i].checked = false;
+		    }
+		}	
+}
+$(document).ready(function(){
+	$(".btn").click(function(){
+		var atLeastOneIsChecked = $('input[name="multicheck"]:checked').length > 0;		
+		if(atLeastOneIsChecked===true){
+			 var items = document.getElementsByName('multicheck');
+			for (var i = 0; i < items.length; i++) {
+				if(items[i].checked){
+		   			ajaxhit(items[i].checked,items[i].value);
+		   		}
+			}
+		}else{
+			alert('items not selected')
+			return
+		}
+	})
+
+	function ajaxhit(status,getid){
+		/*var dataGet={
+			key:status,
+			value:getid
+		}*/
+		$.ajax({
+			url:'/Task/deleteall',
+			type:'POST',
+			data:{key:getid},
+			cache:true,
+			dataType:'text',
+			success:function(responce){
+				if(responce){
+					$('.hide_'+getid).delay("slow").css("background-color", "red").fadeOut()
+				}else{
+					console.log(responce)
+				}
+				//$(this).hide();
+			},error(err){
+				console.log('data not able to move')
+			}
+		})
+
+	}
+
+
+})
+=======
 
 <script>
 function checkAll(ele) {
@@ -42,4 +121,5 @@ function checkAll(ele) {
          }
      }
  }
+>>>>>>> 381b1d401286587f75047560e258be15dd2fe27b
 </script>

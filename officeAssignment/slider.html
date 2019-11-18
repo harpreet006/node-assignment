@@ -1,0 +1,55 @@
+<div class="slider" id="main-slider">
+	<div class="slider-wrapper">
+		<img src="images/35059.jpg" id='imagechange' alt="First" customatr="0" class="slide" style="width:50%">
+	</div> 
+	<button onclick="setnextfunctions()">Next</button>
+	<button onclick="setpreviousfunctions()">Previous</button>
+</div>
+<style type="text/css">
+</style>
+<script type="text/javascript">
+var imageAry = ['35059.jpg','perk2.jpg','perk3.jpg','perk4.jpg','perk5.jpg','perk6.jpg','perk7.jpg','perk8.jpg']
+slideration()
+var a=0
+
+function settimeout(setatr,action){
+	a = setatr		
+	if(action=='next'){
+		console.log(document.getElementById('imagechange').src= 'images/'+imageAry[a])		
+		document.getElementById('imagechange').setAttribute('customatr',a)	
+	}
+	else if (action=='Previous'){
+		console.log(document.getElementById('imagechange').src= 'images/'+imageAry[a])		
+		document.getElementById('imagechange').setAttribute('customatr',a)	
+	}else{
+		setInterval(function() {
+			if(a<imageAry.length){
+				console.log(document.getElementById('imagechange').src= 'images/'+imageAry[a])		
+				document.getElementById('imagechange').setAttribute('customatr',a)
+				a++
+			}else{
+				a=0
+			}
+		}, 4000, a);
+	}
+}
+
+function slideration(){
+	settimeout(0,'auto')
+}
+
+function setnextfunctions(){
+	var getatr=Number(document.getElementById('imagechange').getAttribute('customatr'))
+	if(getatr==undefined){
+		getatr=0
+	}
+	settimeout(getatr+Number(1),'next')
+}
+function setpreviousfunctions(){
+	var getatr=Number(document.getElementById('imagechange').getAttribute('customatr'))
+	if(getatr==0){
+		getatr=1
+	}
+	settimeout(getatr-Number(1),'Previous')
+}
+</script>	
