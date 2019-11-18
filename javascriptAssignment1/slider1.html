@@ -1,0 +1,22 @@
+<div>
+	<img id='srcimge' src="images/image1.jpg">
+</div>
+<script type="text/javascript">
+	var a=Number(0)
+	slider1(a)
+	var arrayimg=['image1.jpg','image2.jpg','image3.jpg'];
+	function slider1(a){
+		// var a=0
+			setInterval(function(){	
+			 // a=0		
+			console.log(a,"dsd");
+				if(a<arrayimg.length-1){
+					document.getElementById("srcimge").src='images/'+arrayimg[a]
+					console.log(arrayimg[a])
+				}else{
+					a=0
+				}
+				a++
+			 }, 2000);
+	}
+</script>

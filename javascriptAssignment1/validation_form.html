@@ -1,0 +1,55 @@
+<form method="post" name="formpost" onsubmit="return submitaction()">
+	<input type="text" name="fname">
+	<input type="text" name="lname">
+	<input type="text" name="email">
+	<input type="text" name="address">
+	<input type="submit" name="submitname" value="submit">
+</form>
+<script type="text/javascript">
+function ValidateEmail(mail) 
+{
+ 	if( /(.+)@(.+){2,}\.(.+){2,}/.test(mail) ){  	
+		return true
+  	}else{
+    	alert("You have entered an invalid email address!")
+  		return false
+  	}
+
+  }
+function submitaction(){
+
+	let fname = document.forms['formpost']['fname'].value
+	let fnamefrim =fname.trim()
+	if(fnamefrim==""){
+		alert("Enter the Name")
+		document.forms['formpost']['fname'].focus()
+		return false
+	}
+
+
+	let lname = document.forms['formpost']['lname'].value
+	let lnamefrim =lname.trim()
+	if(lnamefrim==""){
+		alert("Enter the lname")
+		document.forms['formpost']['lname'].focus()
+		return false
+	}
+
+	let email = document.forms['formpost']['email'].value
+	let emailfrim =email.trim()
+	var responce=ValidateEmail(emailfrim)	
+	if(!responce){
+		document.forms['formpost']['email'].focus()
+		return false
+	}
+
+	let address = document.forms['formpost']['address'].value
+	let addressfrim =address.trim()
+	if(addressfrim==""){
+		alert("Enter the Address")
+		document.forms['formpost']['address'].focus()
+		return false
+	}
+	alert("Welcome to register")
+}	
+</script>
