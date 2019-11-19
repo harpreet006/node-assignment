@@ -67,7 +67,7 @@ app.post('/signup', function(req, res) {
         }
     })
     if(errorMessage.length){
-         return res.send({status:'200',message:errorMessage})
+        return res.send({status:'200',message:errorMessage})
     }else{
        users.checkUserExist(req.body,function(err,responce){
             if(err) throw (err)
