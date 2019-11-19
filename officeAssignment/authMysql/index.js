@@ -15,7 +15,6 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
-
 // passport needs ability to serialize and unserialize users out of session
 passport.serializeUser(function (user, done) {
     done(null, user);
@@ -70,14 +69,22 @@ app.post('/signup', function(req, res) {
     if(errorMessage.length){
          return res.send({status:'200',message:errorMessage})
     }else{
-       users.saveUser(req.body,function(err,responce){
+       users.checkUserExist(req.body,function(err,responce){
             if(err) throw (err)
                 if(responce){
-                    res.send({status:200,message:"User successfully saved"})
+                    res.send({status:200,message:"User is already exist"})
                 }else{
-                   res.send({status:200,message:"User can't saved"})
+                    users.saveUser(req.body,function(err,responce){
+                        if(err) throw (err)
+                        if(responce){
+                            res.send({status:200,message:"User successfully saved"})
+                        }else{
+                            res.send({status:200,message:"User can't saved"})
+                        }
+                    })
                 }
-       })
+        })
+       
     }
 });
 

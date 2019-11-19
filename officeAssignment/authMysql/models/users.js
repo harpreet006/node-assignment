@@ -12,6 +12,8 @@ users = {
 	},
 	saveUser:function(req,callback){		
 		return db.query(`insert into users (name,password,status) VALUES('${req.fname}','${req.password}',1)`,callback)
+	},checkUserExist:function(req,callback){
+		return db.query(`select * from users where name='${req.name}'`,callback)
 	}
 }
 module.exports=users
