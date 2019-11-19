@@ -27,6 +27,7 @@ app.post('/login',
     res.redirect('/');
   });
 app.get('/login',function(req,res){
+  // res.render('login')
 	res.send('<form method="post" action="/login"><input type=text name=username><input type=text name=password><input type=submit name=submit></form>')
 })
 
