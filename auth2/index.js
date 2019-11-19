@@ -12,8 +12,8 @@ var express= require('express')
 	app.use(passport.initialize());
 	app.use(passport.session());
 
-	var flash=require("connect-flash");
-	app.use(flash());
+	// var flash=require("connect-flash");
+	// app.use(flash());
 
 	
 	passport.serializeUser(function(user, done) {

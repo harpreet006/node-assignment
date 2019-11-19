@@ -1,10 +1,9 @@
 var mysql = require('mysql');
-
 var con = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "ourdesignz",
-  database:'assign2Routes'
+  database:"assignment_1"
 });
 
 con.connect(function(err) {
@@ -12,4 +11,3 @@ con.connect(function(err) {
   console.log("Connected!");
 });
 module.exports=con
-
