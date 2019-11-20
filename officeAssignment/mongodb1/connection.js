@@ -1,4 +1,4 @@
-const url="mongodb://localhost:27017/mongoassign1"
+const url="mongodb://localhost:27017/mongodb1"
 const mongoose=require('mongoose')
 mongoose.connect(url,{ useUnifiedTopology: true },function(err,responce){
 	if(err) throw(err)

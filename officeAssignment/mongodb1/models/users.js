@@ -14,7 +14,8 @@ users = {
 	saveUser:function(require){
 
 		user.name="dfsdf",
-		user.password="password"
+		user.password="password";
+		console.log(user);
 		user.save(function(err,responce) {
 		if (err){
 			console.log("Cause error")
