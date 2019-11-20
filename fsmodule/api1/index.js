@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 }));
 
 app.get('/',function(req,res){
- 	fs.readFile('file.json', function(err, data) {
+ 	fs.readFile('file.json',function(err, data) {
  		var user=JSON.parse(data)
  		res.json({status:200,data:user})
     	res.end();
