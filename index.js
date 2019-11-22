@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const http = require('http');
+// const http = require('http');
 const url = require('url');
 const path = require('path');
 /* file upload script  start*/
@@ -9,28 +9,35 @@ app.use(fileUpload());
 /* file upload script  start */
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.set('port', process.env.PORT || 8002);
 app.set('views',path.join(__dirname,'views'))
 app.set('view engine', 'ejs');
 app.set(express.json())
+var passport=require('passport')
+const LocalStrategy = require('passport-local').Strategy;
+const session = require('express-session');
+var multer = require('multer');
+var storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, 'public/images/')
+    },
+    filename: (req, file, cb) => {
+      cb(null, file.fieldname + '-' + Date.now())
+    }
+});
+var upload = multer({storage: storage});
+
+app.use(session({secret: 'ssshhhhh',saveUninitialized: true,resave: true}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname,'public')))
-const  connection = require('./model/connection');
+const  connection = require('./model/connection');	
 const  country = require('./model/country');
+require('./routes/usersroute')(app,passport,LocalStrategy,); // Call Route Action
 var conn = connection.setconn
-app.get('/',function(req,res){
-	country.greet(function(err,result){
-	if(err) reject('Result not found')
-	if(result)
-		resolve(result)
-	else
-		reject("Result not found")
-})
-	res.render('index')
-})
-app.get('/elements',function(req,res){
-	res.render('elements')
-})
+
 app.post("/getstate",function(req,res){
 	sql="select * from states where country_id="+req.body.datakey+""	
 	conn.query(sql,function(req,responce){
@@ -51,42 +58,8 @@ app.post("/getcity",function(req,res){
 			res.send({status:false,result:''})
 		}
 	})
-})
-app.get('/register',function(req,res){
-	let sql ="select * from countries"
-	let responce=""
-	conn.query(sql,function(req,responce){
-		try{
-			if(res){
-				responcedata= responce
-			}else{
-				responcedata= ""
-			}
-		}catch(err){
-			console.log("error")
-		}
-	res.render('register',{country:responcedata})
-	})
-})
-app.post('/ulogin',function(req,res){
-	let username=req.body.lname
-	let password=req.body.lpassword
-	let queryd='select * from users where name="'+username+'" and password="'+password+'"';	
-	conn.query(queryd,function(err,responce){
-		try{
-			if(responce.length){
-			res.redirect('/list');
-			}else{
-				console.log("value not insterted")
-			}
-		}catch(err){
-			console.log(err,"Cause connection!")
-		}
-	})
-})
-app.get('/userlogin',function(req,res){
-	res.render('login');
-})
+}) 
+
 app.post('/search',function(req,res){
 	let name = req.body.keyword
 	sql="SELECT * FROM users WHERE name LIKE '"+name+"%' ";
@@ -176,53 +149,9 @@ app.get('/delete/:userid',function(req,res){
 		res.redirect('/list')
 	})
 })
-app.post('/save',function(req,res,next){
 
-var filename="";
 
-console.log(req.files.file);
-	if(req.files.file){
-		fileupload = req.files.file;
-		var filevalue=""
-		fileupload.mv('./public/uploads/'+req.files.file, function(err) {
-		 	if(err){
-		 		var filename = ''
-		 	}else{	
-		 		var filename = req.files.file.name
-		 	}
-		 })
-	}else{
-		var filename = req.files.file.name
-	}
-	let name = req.body.name
-	let email = req.body.email
-	let category = req.body.category
-	let radio = req.body.radio
-	let checkbox = req.body.checkbox
-	let textarea = req.body.textarea
-	let password = req.body.password
-	var file="";
-	var state= req.body.state
-	var city= req.body.city
-	var country= req.body.country
-	console.log("ook"+fileupload);
-	sql= "insert into users (name,email,category,radio,checkbox,textarea,password,file,state,city,country)VALUES('"+name+"','"+email+"','"+category+"','"+radio+"','"+checkbox+"','"+textarea+"','"+password+"','"+file+"','"+state+"','"+city+"','"+country+"')";
-	conn.query(sql,function(req,res){
-		try{
-			if(res){
-				console.log('data successfully inserted');
-			}else{
-				console.log("data not inserted")
-			}
-		}catch(err){
-			console.log(err,"this is try catch statement")
-		}
-	})
-	res.redirect("/register")
-})
-app.get('/generic',function(req,res){
-	res.render('generic')
-})
-http.createServer(app).listen(app.get('port'),function(){
+
+app.listen(app.get('port'),function(){
 	console.log('express.server'+app.get('port'))
 })

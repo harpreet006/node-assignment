@@ -8,7 +8,7 @@ module.exports = {
       return callback(null,responce);
     });
   },
-/*  getstates:function(callback){
+  getstates:function(callback){
     sql='select * from states'
     conn.query(sql,function(err,responce){
       if(err){
@@ -38,7 +38,7 @@ module.exports = {
         console.log('record not found')
       }
     })
-  },*/
+  },
   farewell: function(callback) {
   	var sql = "select * from states";
   	conn.query(sql,function(err,responce){
