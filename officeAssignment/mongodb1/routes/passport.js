@@ -69,7 +69,7 @@ module.exports= function (passport,LocalStrategy,app) {
 
 	app.get('/', function (req, res) {
 		if(req.user){
-		         res.send(`T-welcome ${req.user[0].name}  you can your these method<br> <a href="users">LIST OF USERS</a><br><a href="users">GET SINGLE USER (PASS ID INTO URL AFTER USERS FOR EXAMPLE:USERS/:ID)</a>`);
+		         res.send(`T-welcome ${req.user.name}  you can your these method<br> <a href="users">LIST OF USERS</a><br><a href="users">GET SINGLE USER (PASS ID INTO URL AFTER USERS FOR EXAMPLE:USERS/:ID)</a>`);
 		    }else{
 		        res.send("T-f welcome to home page <a href='/login'>login</a>");
 		}
@@ -82,8 +82,12 @@ module.exports= function (passport,LocalStrategy,app) {
 			res.render('login',{message:req.flash('loginMessage')})
 		}
 	})
-	app.get('/signup', function (req, res) { 
-	 res.send("<p>Signup login!</p><form method='post' action='/signup'><input type='text' name='fname'/><input type='password' name='password'/><button type='submit' value='submit'>Submit</buttom></form>")
+	app.get('/signup',function (req, res) {
+	if(req.user){
+		    res.redirect('/content')
+		}else{
+			res.send("<p>Signup login!</p><form method='post' action='/signup'><input type='text' name='fname'/><input type='password' name='password'/><button type='submit' value='submit'>Submit</buttom></form>")
+		}
 	});
 
 	app.get('/users',checkAuthentication, function (req, res) { 

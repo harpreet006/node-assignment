@@ -27,4 +27,4 @@ app.use(passport.session());
 // var usersRoutes=require('./routes/usersr')
 require('./routes/passport')(passport,LocalStrategy,app)//to pass passport localStrategy and app 
 app.listen(3030);
-console.log("App running at localhost:3031");
+console.log("App running at localhost:3030");
