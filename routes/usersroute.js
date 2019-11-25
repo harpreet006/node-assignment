@@ -35,6 +35,7 @@ module.exports= function(app,passport,LocalStrategy,upload){
 	
 	app.get('/',function(req,res){
 		var name = req.user
+		console.log(req.user,"**&&&**")
     	res.locals.user_name = req.user;
 		res.render('index')
 	})
@@ -66,16 +67,17 @@ module.exports= function(app,passport,LocalStrategy,upload){
 		}
 	})
 
-	app.post('/save',passport.authenticate('local-signup', { failureRedirect: '/register' }),
+	app.post('/save', upload.single('file'), passport.authenticate('local-signup', { failureRedirect: '/register' }),
 	function(req, res) {
 		res.redirect('/');
 	});
-	passport.use('local-signup',  new LocalStrategy({        
+
+	passport.use('local-signup', new LocalStrategy({
         usernameField : 'email',
         passwordField : 'password',
         passReqToCallback : true // allows us to pass back the entire request to the callback
     },
-    function(req, email, password, done) { 
+    function(req, email, password, done) {
     	users.checkUserExist(req,function(err,responce){
     		if(err){
 				console.log("signup cause error")
@@ -99,6 +101,48 @@ module.exports= function(app,passport,LocalStrategy,upload){
     	})
     }));
 
+	app.post('/update',upload.single('file'),function(req,res){
+		users.updateUser(req,function(err,responce){
+			if(err){
+				console.log("Update cause error")
+			}
+			if(responce){
+				res.redirect('/')
+				console.log("User Update successfully")
+			}
+		})		
+	})
+
+	app.post('/settings-save',function(req,res){
+	 	console.log(req)	
+	})
+
+	app.get('/list/:id?',function(req,res){
+		users.getalluser(req,function(err,responce){
+			if(err){
+				console.log("get list error")
+			}
+			if(responce){
+				let parmId=0
+				if(req.params.id !=undefined){
+					parmId= req.params.id*10
+				}
+				users.getuserLimit(req, parmId,function(err,responce1){
+					console.log(req.params.id,"*&&&*")
+					if(err){
+						console.log("get list error with limit")
+					}
+					getParms=0
+					if(req.params.id !=undefined){
+						getParms=req.params.id
+					}
+					res.render('list',{data:responce1,totalcount:Math.ceil(responce.length/10-1),currentPage:getParms})
+				})
+			}
+		})
+	})
+
+
 	function isLoggedIn(req, res, next) {
 	 if (req.isAuthenticated()) {
 	    req.isLogged = true
@@ -110,6 +154,11 @@ module.exports= function(app,passport,LocalStrategy,upload){
 	app.get('/elements',function(req,res){
 		res.render('elements')
 	})
+
+	app.get('/setting',function(req,res){
+		res.render('setting')
+	})
+
 
 	app.get('/logout',function(req,res){
 		req.logout();

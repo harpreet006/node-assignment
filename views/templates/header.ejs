@@ -5,7 +5,7 @@
 		<a href="#menu">Menu</a>
 	</nav>
 </header>
-<!-- Nav -->
+<!-- Nav --> 
 <nav id="menu">
 	<ul class="links">
 		<li><a href="/">Home</a></li>
@@ -14,6 +14,8 @@
 		<li><a href="/list">List</a></li>
 		<% if (locals.user_name) {%>
 			<li><a href="/logout">Logout</a></li> <!--locals.user_name.file-->
+			<li><a href="/setting">Setting</a></li> <!--locals.user_name.file-->
+			<img style="width: 24%;border-radius: 51%;height: 64px;" src="/uploads/<%=locals.user_name.file%>">
 		<%}else{%>
 		<li><a href="/register">Register</a></li>
 		<li><a href="/userlogin">Login</a></li>
