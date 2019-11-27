@@ -17,10 +17,12 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.1.6-alpha.5",
     "express-flash-messages": "^0.1.1",
+    "express-flash-notification": "^0.5.0",
     "express-formidable": "^1.2.0",
     "express-session": "^1.17.0",
     "form": "^0.2.4",
     "formidable": "^1.2.1",
+    "json_encode": "^0.1.0",
     "mongoose": "^5.7.12",
     "morgan": "^1.9.1",
     "multer": "^1.4.2",
@@ -30,6 +32,7 @@
     "passport-local": "^1.0.0",
     "request": "^2.88.0",
     "serve-favicon": "^2.5.0",
+    "socket.io": "^2.3.0",
     "util": "^0.12.1"
   }
 }

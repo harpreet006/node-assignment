@@ -35,6 +35,8 @@ const  connection = require('./model/connection');
 const  country = require('./model/country');
 require('./routes/usersroute')(app,passport,LocalStrategy,upload); // Call Route Action
 var conn = connection.setconn
+var flash = require('express-flash-messages')
+app.use(flash())
 
 app.post("/getstate",function(req,res){
 	sql="select * from states where country_id="+req.body.datakey+""	

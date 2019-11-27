@@ -18,7 +18,13 @@ module.exports = {
   },
   getuserLimit:function(req,parmId,callback){
   	return conn.query(`select * from users LIMIT ${parmId}, 10`,callback)
-  }
-
+  },
+  saveoptions:function(req,callback){
+    Object.keys(req.body).forEach(function(key){
+      if(req.body[key] !=""){
+        return conn.query("insert into `node_options` (`user_id`,`key`,`values`) VALUES('"+req.user.user_id+"','"+key+"','"+req.body[key]+"')")
+      }
+    })
+  }  
    
 }

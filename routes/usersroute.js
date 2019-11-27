@@ -114,7 +114,17 @@ module.exports= function(app,passport,LocalStrategy,upload){
 	})
 
 	app.post('/settings-save',function(req,res){
-	 	console.log(req)	
+	 	users.saveoptions(req,function(err,responce){
+	 		if(err){
+	 			console.log('Error cause')
+	 		}
+	 		if(responce){
+	 			console.log("Data inserted successfully")
+	 			res.redirect('/setting')
+	 		}else{
+	 			console.log("responce1 empty")
+	 		}
+	 	})
 	})
 
 	app.get('/list/:id?',function(req,res){
