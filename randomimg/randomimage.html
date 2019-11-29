@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"     type="text/javascript"></script>
+<title>Robs Test</title>
+</head>
+<body>
+<div class="collage-img">
+	<div id="count">6</div>
+	<img width="500"  id="image1" src="">
+	<img width="500" id="image2" src="">
+	<img width="500" id="image3" src="">
+	<img width="500"  id="image4" src="">
+	<img width="500" id="image5" src="">
+	<img width="500" id="image6" src="">
+</div>	
+<script type="text/javascript">
+function hjk(){
+	var arr = [];
+	while(arr.length < 6){
+	    var r = Math.floor(Math.random() * 6) + 1;
+	    if(arr.indexOf(r) === -1) arr.push(r);
+	}
+	var collegeImg=['perkburn1.jpg','perkgb.jpg','perk77.jpg','perk79.jpg','perk87.jpg','perk88.jpg']
+	arr.forEach(function(value,key){
+		intId="image"+parseInt(key+1)
+		document.getElementById(intId).src = collegeImg[value-1]
+		 
+	})
+}
+hjk()
+$(window).load(function(){
+	function countDown(count){
+		if(count==0){
+			hjk()
+			count=6 // You can trigger action after the count
+		}
+		var hj=parseInt(count-1)
+		if(hj==0){
+			hj=0
+			document.getElementById("count").style.background="red"
+			document.getElementById("count").innerHTML=hj
+		}else{
+			document.getElementById("count").style.background="green"
+			document.getElementById("count").innerHTML=hj
+		}
+		setTimeout(function(){
+			countDown(hj)
+		},3000)
+	}
+	countDown(7)
+})
+</script>
+<style type="text/css">
+div#count {
+	background: green;
+	width: 1%;
+	margin: 0 auto;
+	text-align: center;
+	padding: 20px;
+	border-radius: 32px;
+	color: #fff;
+	margin-bottom: 11px;
+}
+</style>
+</body>
+</html>
