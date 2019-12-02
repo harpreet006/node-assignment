@@ -2820,3 +2820,20 @@ body.is-menu-visible #menu {
   transform: translateX(0);
   box-shadow: 0 0 1.5rem 0 rgba(0, 0, 0, 0.2);
   visibility: visible; }
+
+.pagination {
+    text-align: center;
+    padding: 11px;
+    background: navajowhite;
+}
+.header-section {
+    margin-left: 13px;
+}
+.change-pages-6section {
+    float: left;
+    width: 15%;
+    margin-right: 21px;
+}
+.sub-footer-section {
+    clear: both;
+}

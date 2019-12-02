@@ -1,23 +1,41 @@
 const express = require('express');
 const app = express();
-const http = require('http');
+// const http = require('http');
+var multer = require('multer');
+const storage = multer.diskStorage({
+    destination : function(req,file,callback){
+        callback(null, './public/uploads/');
+    },
+    filename: function(req,file,callback){
+    	var datetimestamp = Date.now();
+        callback(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1])
+    }
+});
+
+const upload = multer({ storage : storage}); 
 const url = require('url');
 const path = require('path');
-/* file upload script  start*/
-const fileUpload = require('express-fileupload');
-app.use(fileUpload());
-/* file upload script  start */
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: true }))
 app.set('port', process.env.PORT || 8002);
 app.set('views',path.join(__dirname,'views'))
 app.set('view engine', 'ejs');
 app.set(express.json())
+var passport=require('passport')
+const LocalStrategy = require('passport-local').Strategy;
+const session = require('express-session');
+var flash = require('express-flash-messages')
+app.use(flash())
+app.use(session({secret: 'ssshhhhh',saveUninitialized: true,resave: true}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname,'public')))
-const  connection = require('./model/connection');
+const  connection = require('./model/connection');	
 const  country = require('./model/country');
+require('./routes/usersroute')(app,passport,LocalStrategy,upload); // Call Route Action
 var conn = connection.setconn
+
 app.get('/',function(req,res){
 	country.getcountry(function(err,result){
 	if(err) reject('Result not found')
@@ -31,6 +49,7 @@ app.get('/',function(req,res){
 app.get('/elements',function(req,res){
 	res.render('elements')
 })
+
 app.post("/getstate",function(req,res){
 	sql="select * from states where country_id="+req.body.datakey+""	
 	conn.query(sql,function(req,responce){
@@ -51,42 +70,8 @@ app.post("/getcity",function(req,res){
 			res.send({status:false,result:''})
 		}
 	})
-})
-app.get('/register',function(req,res){
-	let sql ="select * from countries"
-	let responce=""
-	conn.query(sql,function(req,responce){
-		try{
-			if(res){
-				responcedata= responce
-			}else{
-				responcedata= ""
-			}
-		}catch(err){
-			console.log("error")
-		}
-	res.render('register',{country:responcedata})
-	})
-})
-app.post('/ulogin',function(req,res){
-	let username=req.body.lname
-	let password=req.body.lpassword
-	let queryd='select * from users where name="'+username+'" and password="'+password+'"';	
-	conn.query(queryd,function(err,responce){
-		try{
-			if(responce.length){
-			res.redirect('/list');
-			}else{
-				console.log("value not insterted")
-			}
-		}catch(err){
-			console.log(err,"Cause connection!")
-		}
-	})
-})
-app.get('/userlogin',function(req,res){
-	res.render('login');
-})
+}) 
+
 app.post('/search',function(req,res){
 	let name = req.body.keyword
 	sql="SELECT * FROM users WHERE name LIKE '"+name+"%' ";
@@ -102,12 +87,7 @@ app.post('/search',function(req,res){
 		}
 	})
 })
-app.get('/list',function(req,res){
-	let query='select * from users';
-	conn.query(query,function(err,responce){
-		res.render('list',{data:responce})
-	})
-})
+
 app.get('/edit/:userid',async function(req,res){
 	let query='select * from users where id="'+req.params.userid+'"';
 	let promisecountry = new Promise(function(resolve,reject){
@@ -159,15 +139,6 @@ app.get('/edit/:userid',async function(req,res){
 		res.render('edit',{data:responce,religious:religious})
 	})
 })
-app.post('/update',function(req,res){
-	console.log(req.files,"************")
-	//file=(req.file)?req.file.filename:req.body.file
-	// console.log("hello",req.body.file)
-	sql="UPDATE users SET name = '"+req.body.name+"', email = '"+req.body.email+"', category='"+req.body.category+"',radio='"+req.body.radio+"',checkbox='"+req.body.checkbox+"', textarea='"+req.body.textarea+"',password='"+req.body.password+"',file='',state='"+req.body.state+"',city='"+req.body.city+"',country='"+req.body.country+"' WHERE id ='"+req.body.id+"'"
-	conn.query(sql,function(err,responce){
-		res.redirect('list')
-	})
-})
 
 app.get('/delete/:userid',function(req,res){
 	let query='delete from users where id="'+req.params.userid+'"';
@@ -176,53 +147,6 @@ app.get('/delete/:userid',function(req,res){
 		res.redirect('/list')
 	})
 })
-app.post('/save',function(req,res,next){
-
-var filename="";
-
-console.log(req.files.file);
-	if(req.files.file){
-		fileupload = req.files.file;
-		var filevalue=""
-		fileupload.mv('./public/uploads/'+req.files.file, function(err) {
-		 	if(err){
-		 		var filename = ''
-		 	}else{	
-		 		var filename = req.files.file.name
-		 	}
-		 })
-	}else{
-		var filename = req.files.file.name
-	}
-	let name = req.body.name
-	let email = req.body.email
-	let category = req.body.category
-	let radio = req.body.radio
-	let checkbox = req.body.checkbox
-	let textarea = req.body.textarea
-	let password = req.body.password
-	var file="";
-	var state= req.body.state
-	var city= req.body.city
-	var country= req.body.country
-	console.log("ook"+fileupload);
-	sql= "insert into users (name,email,category,radio,checkbox,textarea,password,file,state,city,country)VALUES('"+name+"','"+email+"','"+category+"','"+radio+"','"+checkbox+"','"+textarea+"','"+password+"','"+file+"','"+state+"','"+city+"','"+country+"')";
-	conn.query(sql,function(req,res){
-		try{
-			if(res){
-				console.log('data successfully inserted');
-			}else{
-				console.log("data not inserted")
-			}
-		}catch(err){
-			console.log(err,"this is try catch statement")
-		}
-	})
-	res.redirect("/register")
-})
-app.get('/generic',function(req,res){
-	res.render('generic')
-})
-http.createServer(app).listen(app.get('port'),function(){
+app.listen(app.get('port'),function(){
 	console.log('express.server'+app.get('port'))
 })

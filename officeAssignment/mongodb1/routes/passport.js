@@ -80,8 +80,12 @@ module.exports= function (passport,LocalStrategy,app) {
 			res.render('login',{message:req.flash('loginMessage')})
 		}
 	})
-	app.get('/signup', function (req, res) { 
-	 res.send("<p>Signup login!</p><form method='post' action='/signup'><input type='text' name='fname'/><input type='password' name='password'/><button type='submit' value='submit'>Submit</buttom></form>")
+	app.get('/signup',function (req, res) {
+	if(req.user){
+		    res.redirect('/content')
+		}else{
+			res.send("<p>Signup login!</p><form method='post' action='/signup'><input type='text' name='fname'/><input type='password' name='password'/><button type='submit' value='submit'>Submit</buttom></form>")
+		}
 	});
 
 	app.get('/users',checkAuthentication, function (req, res) {

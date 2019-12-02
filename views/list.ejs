@@ -23,7 +23,7 @@
 							if(arydata.status){
 								var ary='';
 								for(let a=0;a<arydata.result.length;a++){
-									ary +="<tr><td>"+arydata.result[a].name+"</td><td>"+arydata.result[a].email+"</td><td>"+arydata.result[a].category+"</td><td><a href='edit/"+arydata.result[a].id+"'>Edit</a>/<a href='delete/"+arydata.result[a].id+"'>Delete</a></td></tr>"
+									ary +="<tr><td>"+arydata.result[a].name+"</td><td>"+arydata.result[a].email+"</td><td>"+arydata.result[a].category+"</td><td><a href='/edit/"+arydata.result[a].id+"'>Edit</a>/<a href='/delete/"+arydata.result[a].id+"'>Delete</a></td></tr>"
 								}
 							}else{
 								ary= '<td style="text-align:center" colspan="4">'+arydata.result+'</td>'
@@ -53,7 +53,7 @@
 						<div class="table-wrapper">
 							<div>
 								<div class=post>
-									<input type=text  name=search placeholder="Search">
+									<input type=text  name=search placeholder="Search" disabled="">
 								</div>
 							</div>
 							<table>
@@ -65,22 +65,37 @@
 										<th>Action</th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody>									
 									<% for(var a=0;a<data.length; a++) {%>	<tr>
 											<td><%= data[a].name; %></td>
 											<td><%= data[a].email %></td>
 											<td><%= data[a].category %></td>
 											<td>
-												<a href="edit/<%= data[a].id %>">Edit</a> /
-												<a href="delete/<%= data[a].id %>">Delete</a>
+												<a href="/edit/<%= data[a].id %>">Edit</a> /
+												<a href="/delete/<%= data[a].id %>">Delete</a>
 											</td>
 										</tr>
-									<%}%>																		
-								</tbody>											 
+									<%}%>
+								</tbody>
 							</table>
+							<div class="pagination">
+								<% if(currentPage >1) {%>
+									<a href="/list/<%=Number(currentPage)-1%>">Previous</a>
+								<%}%>
+								<% for(a='1' ;a<=totalcount;a++){%>
+									<% if(currentPage==a){ %>
+										<a style="font-size: larger;font-weight: bolder;" href="/list/<%=a%>"><%=a%></a>
+									<%}else{%>
+										<a href="/list/<%=a%>"><%=a%></a>						
+									<%}%>
+								<%}%>
+								<% if( totalcount !=currentPage ) {%>
+									<a href="/list/<%=Number(currentPage)+1%>">Next</a>
+								<%}%>							
+							</div>
 						</div>
 					</div>
-				</div>
+				</div>				
 			</section>
 		<!-- Footer -->
 		 <%-include('templates/footer')%>

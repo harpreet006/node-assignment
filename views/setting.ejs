@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Setting</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<%-include('templates/headstyle')%>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+		<%-include('templates/header')%>
+  		<%- JSON.stringify(data[0].key['_first1_sub_header']) %>
+			<section id="main" class="wrapper">
+				<form name='settings' action="/settings-save"  method="post"  enctype="multipart/form-data">
+				<label>Generic Page</label>
+				<div class="change-pages">
+					<textarea placeholder="Enter the text" name="_generic_page"></textarea>					
+				</div>
+
+				<label>Home Page</label>
+				<div class="header-section">
+					<label>Header section</label>
+					<div class="change-pages">
+						<label>Title </label>
+						<input type="text" name="_header_title">
+						<label>Description </label>
+						<textarea name="_header_paragraph"></textarea>
+					</div>
+					<br>
+					<label>Sub  Header Section</label>
+					<div class="change-pages">
+						<label>Title </label>
+						<input type="text" name="_sub_header_title">
+						<label>Description </label>
+						<textarea name="_sub_header_paragraph"></textarea>
+					</div>
+
+					<label>Sub  Header 6 Section</label>
+					<div class="change-pages-6section">
+						<label>First 1 </label>
+						<input type="text" name="_first1_sub_header_title">
+						<label>Icon</label>
+						<input type="file" name="_first1_sub_header">
+						<label>Description </label>
+						<textarea name="_first1_sub_header_paragraph"></textarea>
+					</div>
+					<div class="change-pages-6section">
+						<label>First 2 </label>
+						<input type="text" name="_first2_sub_header_title">
+						<label>Icon</label>
+						<input type="file" name="_first2_sub_header">
+						<label>Description </label>
+						<textarea name="_first2_sub_header_paragraph"></textarea>
+					</div>
+					<div class="change-pages-6section">
+						<label>First 3 </label>
+						<input type="text" name="_first3_sub_header_title">
+						<label>Icon</label>
+						<input type="file" name="_first3_sub_header">
+						<label>Description </label>
+						<textarea name="_first3_sub_header_paragraph"></textarea>
+					</div>
+					<div class="change-pages-6section">
+						<label>First 4 </label>
+						<input type="text" name="_first4_sub_header_title">
+						<label>Icon</label>
+						<input type="file" name="_first4_sub_header">
+						<label>Description </label>
+						<textarea name="_first4_sub_header_paragraph"></textarea>
+					</div>
+					<div class="change-pages-6section">
+						<label>First 5 </label>
+						<input type="text" name="_first5_sub_header_title">
+						<label>Icon</label>
+						<input type="file" name="_first5_sub_header">
+						<label>Description </label>
+						<textarea name="_first5_sub_header_paragraph"></textarea>
+					</div>
+					<div class="change-pages-6section">
+						<label>First 6</label>
+						<input type="text" name="_first6_sub_header_title">
+						<label>Icon</label>
+						<input type="file" name="_first6_sub_header">
+						<label>Description </label>
+						<textarea name="_first6_sub_header_paragraph"></textarea>
+					</div>
+				</div>
+				<div class="sub-footer-section">
+					<label>Sub  Footer Section</label>
+					<div class="change-pages">
+							<label>Title </label>
+							<input type="text" name="_sub_footer_title">
+							<label>Description </label>
+							<textarea name="_sub_footer_paragraph"></textarea>
+					</div>
+				</div>
+				<input type="submit" name="savesetting" value="Save">
+			</form>
+			</section>			 
+	</body>
+</html>
