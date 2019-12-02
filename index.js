@@ -19,7 +19,7 @@ const  connection = require('./model/connection');
 const  country = require('./model/country');
 var conn = connection.setconn
 app.get('/',function(req,res){
-	country.greet(function(err,result){
+	country.getcountry(function(err,result){
 	if(err) reject('Result not found')
 	if(result)
 		resolve(result)

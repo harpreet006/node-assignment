@@ -5,7 +5,7 @@ users = {
 		return UserObj.find(callback)
 	},
 	findAllUserById:function(id,callback){
-		//return db.query(`select * from users where id=${id}`,callback)
+		return UserObj.find({_id:id},callback)
 	},
 	userLogin:function(username,password,callback){
 		UserObj.find({name:username},function(err,responcedata){
@@ -22,8 +22,6 @@ users = {
 				callback(null,{status:false,message:'User and Password Not matched'})
 			}
 		});
-		// console.log(`select * form users where name='${username}' and password='${password}'`)
-		//return db.query(`select * from users where name='${username}' and password='${password}'`,callback)
 	},
 	saveUser:function(req,callback){		
 		user.name=req.fname,

@@ -1,5 +1,5 @@
-var users =require('../models/users')
-var UserObj =require('../schema/user') 
+var users = require('../models/users')
+var UserObj = require('../schema/user')
 
 function checkAuthentication(req,res,next){
     if(req.isAuthenticated()){
@@ -10,7 +10,6 @@ function checkAuthentication(req,res,next){
 }
 module.exports= function (passport,LocalStrategy,app) {	
 	passport.serializeUser(function (user, done) {
-		// console.log(user,"&&***")
     	done(null, user);
 	});
 	passport.deserializeUser(function (id, done) {
@@ -24,8 +23,7 @@ module.exports= function (passport,LocalStrategy,app) {
 	            	console.log('rejected')
 	            }
                 if(responce.status){
-                	//console.log(responce,"dfsdfsd")
-                    done(null,responce)
+                    done(null,responce.data[0])
                 }else{
                 	req.flash('loginMessage',responce.message)
                     done(null,false)
@@ -67,9 +65,9 @@ module.exports= function (passport,LocalStrategy,app) {
 	    res.redirect("/content");
 	});
 
-	app.get('/', function (req, res) {
+	app.get('/', function (req, res) {		
 		if(req.user){
-		         res.send(`T-welcome ${req.user[0].name}  you can your these method<br> <a href="users">LIST OF USERS</a><br><a href="users">GET SINGLE USER (PASS ID INTO URL AFTER USERS FOR EXAMPLE:USERS/:ID)</a>`);
+		         res.send(`T-welcome ${req.user.name}  you can your these method<br> <a href="users">LIST OF USERS</a><br><a href="users">GET SINGLE USER (PASS ID INTO URL AFTER USERS FOR EXAMPLE:USERS/:ID)</a>`);
 		    }else{
 		        res.send("T-f welcome to home page <a href='/login'>login</a>");
 		}
@@ -86,7 +84,7 @@ module.exports= function (passport,LocalStrategy,app) {
 	 res.send("<p>Signup login!</p><form method='post' action='/signup'><input type='text' name='fname'/><input type='password' name='password'/><button type='submit' value='submit'>Submit</buttom></form>")
 	});
 
-	app.get('/users',checkAuthentication, function (req, res) { 
+	app.get('/users',checkAuthentication, function (req, res) {
 		users.findAllUser(function(err,result){
 	        if(err) throw(err)
             if(result.length){
@@ -96,22 +94,22 @@ module.exports= function (passport,LocalStrategy,app) {
             }
 	    })
 	})
+
 	app.get('/content',checkAuthentication,function(req,res){
- 		let userName=req.session.passport.user.data[0].name
-    	res.send({status:"200",message:`User successfully registered ${userName}`})
-	}) 
+    	res.send({status:"200",message:`User successfully registered`})
+	})
 	app.get('/test',checkAuthentication,function(req,res){
- 		console.log(req)
-    	res.send({status:"200",message:`User successfully auth test}`})
+ 		console.log(req.user,"This is test route")
+    	res.send({status:"200",message:`User successfully auth test ${req.user.name}}`})
 	}) 
-	app.get('/users/:id',checkAuthentication, function (req, res) { 
+	app.get('/users/:id',checkAuthentication, function (req, res) {
 		users.findAllUserById(req.params.id,function(err,result){
 	        if(err) throw(err)
-	            if(result.length){
-	               res.send({status:200,result:result})
-	            }else{
-	               res.send({status:200,message:"Record Not Found"})
-	            }
+            if(result.length){
+               res.send({status:200,result:result})
+            }else{
+               res.send({status:200,message:"Record Not Found"})
+            }
 	    })
 	})
  }
