@@ -14,7 +14,7 @@
 		<%-include('templates/header')%>
  
 			<section id="main" class="wrapper">
-				<form name='settings' action="/settings-save"  method="post" >
+				<form name='settings' action="/settings-save"  method="post"  enctype="multipart/form-data">
 				<label>Generic Page</label>
 				<div class="change-pages">
 					<textarea placeholder="Enter the text" name="_generic_page"></textarea>					

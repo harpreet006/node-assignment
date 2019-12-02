@@ -20,11 +20,22 @@ module.exports = {
   	return conn.query(`select * from users LIMIT ${parmId}, 10`,callback)
   },
   saveoptions:function(req,callback){
-    Object.keys(req.body).forEach(function(key){
-      if(req.body[key] !=""){
-        return conn.query("insert into `node_options` (`user_id`,`key`,`values`) VALUES('"+req.user.user_id+"','"+key+"','"+req.body[key]+"')")
-      }
+    conn.query("delete from `node_options` where user_id=1")
+    let comMon = new Promise((resolve,reject)=>{
+      Object.keys(req.files).forEach(function(key1,values){
+       conn.query("insert into `node_options` (`user_id`,`key`,`values`) VALUES('1','"+req.files[key1][0].fieldname+"','"+req.files[key1][0].filename+"')")
+      })
+      Object.keys(req.body).forEach(function(key){
+        if(req.body[key] !="" && key !="savesetting"){
+          conn.query("insert into `node_options` (`user_id`,`key`,`values`) VALUES('1','"+key+"','"+req.body[key]+"')")
+        }
+      })
+      resolve(true)
     })
-  }  
-   
+    comMon.then(res=>{
+      return callback(null,res)
+    }).catch(err=>{
+      return callback('Not inserted','')
+    })
+  }
 }

@@ -111,16 +111,35 @@ module.exports= function(app,passport,LocalStrategy,upload){
 				console.log("User Update successfully")
 			}
 		})		
-	})
+	}) 
+  	let uploadMul=upload.fields([{
+           name: '_first1_sub_header', maxCount: 1
+         },
+         {
+           name: '_first2_sub_header', maxCount: 1
+         },
+         {
+           name: '_first3_sub_header', maxCount: 1
+         },
+         {
+           name: '_first4_sub_header', maxCount: 1
+         },
+         {
+           name: '_first5_sub_header', maxCount: 1
+         },
+         {
+           name: '_first6_sub_header', maxCount: 1
+         }])
 
-	app.post('/settings-save',function(req,res){
+	app.post('/settings-save',uploadMul,function(req,res){
 	 	users.saveoptions(req,function(err,responce){
 	 		if(err){
-	 			console.log('Error cause')
+	 			console.log('Error cause',err)
 	 		}
+	 		// console.log(responce,"********")
 	 		if(responce){
 	 			console.log("Data inserted successfully")
-	 			res.redirect('/setting')
+	 			res.redirect('/')
 	 		}else{
 	 			console.log("responce1 empty")
 	 		}
