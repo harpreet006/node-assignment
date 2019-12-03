@@ -35,6 +35,7 @@ const  connection = require('./model/connection');
 const  country = require('./model/country');
 require('./routes/usersroute')(app,passport,LocalStrategy,upload); // Call Route Action
 var conn = connection.setconn
+// console.log(conn,"**&&")
 
 app.get('/',function(req,res){
 	country.getcountry(function(err,result){
@@ -131,9 +132,6 @@ app.get('/edit/:userid',async function(req,res){
 	})*/
 	let religious={} // Declear the data base
 	religious.country = await promisecountry
-	//religious.states = await promisestate
-	//religious.cities = await promisecities
-	//getpromiss.then(res=>{getuser.users=res,console.log(res)})
 	conn.query(query,function(err,responce){
 		console.log(responce[0].state)
 		res.render('edit',{data:responce,religious:religious})

@@ -32,11 +32,11 @@ module.exports= function(app,passport,LocalStrategy,upload){
 			});
 		}
 	));
-	
+
 	app.get('/',function(req,res){
 		var name = req.user
 		console.log(req.user,"**&&&**")
-    	res.locals.user_name = req.user;
+		res.locals.user_name = req.user;
 		res.render('index')
 	})
 
@@ -73,13 +73,13 @@ module.exports= function(app,passport,LocalStrategy,upload){
 	});
 
 	passport.use('local-signup', new LocalStrategy({
-        usernameField : 'email',
-        passwordField : 'password',
-        passReqToCallback : true // allows us to pass back the entire request to the callback
-    },
-    function(req, email, password, done) {
-    	users.checkUserExist(req,function(err,responce){
-    		if(err){
+	    usernameField : 'email',
+	    passwordField : 'password',
+	    passReqToCallback : true // allows us to pass back the entire request to the callback
+	},
+	function(req, email, password, done) {
+		users.checkUserExist(req,function(err,responce){
+			if(err){
 				console.log("signup cause error")
 			}
 			if(responce.length){
@@ -98,8 +98,8 @@ module.exports= function(app,passport,LocalStrategy,upload){
 					}
 				})
 			}
-    	})
-    }));
+		})
+	}));
 
 	app.post('/update',upload.single('file'),function(req,res){
 		users.updateUser(req,function(err,responce){
@@ -112,24 +112,24 @@ module.exports= function(app,passport,LocalStrategy,upload){
 			}
 		})		
 	}) 
-  	let uploadMul= upload.fields([{
-           name: '_first1_sub_header', maxCount: 1
-        },
-        {
-           name: '_first2_sub_header', maxCount: 1
-        },
-        {
-           name: '_first3_sub_header', maxCount: 1
-        },
-        {
-           name: '_first4_sub_header', maxCount: 1
-        },
-        {
-           name: '_first5_sub_header', maxCount: 1
-        },
-        {
-           name: '_first6_sub_header', maxCount: 1
-        }])
+		let uploadMul= upload.fields([{
+	       name: '_first1_sub_header', maxCount: 1
+	    },
+	    {
+	       name: '_first2_sub_header', maxCount: 1
+	    },
+	    {
+	       name: '_first3_sub_header', maxCount: 1
+	    },
+	    {
+	       name: '_first4_sub_header', maxCount: 1
+	    },
+	    {
+	       name: '_first5_sub_header', maxCount: 1
+	    },
+	    {
+	       name: '_first6_sub_header', maxCount: 1
+	    }])
 
 	app.post('/settings-save',uploadMul,function(req,res){
 	 	users.saveoptions(req,function(err,responce){
@@ -171,7 +171,6 @@ module.exports= function(app,passport,LocalStrategy,upload){
 		})
 	})
 
-
 	function isLoggedIn(req, res, next) {
 	 if (req.isAuthenticated()) {
 	    req.isLogged = true
@@ -190,18 +189,20 @@ module.exports= function(app,passport,LocalStrategy,upload){
 				console.log("cause error")
 			}
 			if(responce){
-				console.log(responce)
-				res.render('setting',{data:responce})
+				res.render('setting', {
+					helper: require('../helpers/helper'),
+					title: 'Setting Page'
+				});
+				// res.render('setting',{data:responce})
 			}else{
 				res.render('setting')				
 			}			
 		})
 	})
 
-
 	app.get('/logout',function(req,res){
 		req.logout();
-  		res.redirect('/');
+			res.redirect('/');
 	})
 
 	app.get('/generic',function(req,res){
