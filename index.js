@@ -25,8 +25,8 @@ app.set(express.json())
 var passport=require('passport')
 const LocalStrategy = require('passport-local').Strategy;
 const session = require('express-session');
-
-
+var flash = require('express-flash-messages')
+app.use(flash())
 app.use(session({secret: 'ssshhhhh',saveUninitialized: true,resave: true}));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -35,8 +35,20 @@ const  connection = require('./model/connection');
 const  country = require('./model/country');
 require('./routes/usersroute')(app,passport,LocalStrategy,upload); // Call Route Action
 var conn = connection.setconn
-var flash = require('express-flash-messages')
-app.use(flash())
+
+app.get('/',function(req,res){
+	country.getcountry(function(err,result){
+	if(err) reject('Result not found')
+	if(result)
+		resolve(result)
+	else
+		reject("Result not found")
+})
+	res.render('index')
+})
+app.get('/elements',function(req,res){
+	res.render('elements')
+})
 
 app.post("/getstate",function(req,res){
 	sql="select * from states where country_id="+req.body.datakey+""	
@@ -135,9 +147,6 @@ app.get('/delete/:userid',function(req,res){
 		res.redirect('/list')
 	})
 })
-
-
-
 app.listen(app.get('port'),function(){
 	console.log('express.server'+app.get('port'))
 })

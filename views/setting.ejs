@@ -12,7 +12,7 @@
 
 		<!-- Header -->
 		<%-include('templates/header')%>
- 
+  		<%- JSON.stringify(data[0].key['_first1_sub_header']) %>
 			<section id="main" class="wrapper">
 				<form name='settings' action="/settings-save"  method="post"  enctype="multipart/form-data">
 				<label>Generic Page</label>

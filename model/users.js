@@ -37,5 +37,8 @@ module.exports = {
     }).catch(err=>{
       return callback('Not inserted','')
     })
+  },
+  getsettings:function(userid,callback){
+    return conn.query("select * from node_options",callback)
   }
 }

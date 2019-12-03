@@ -185,7 +185,17 @@ module.exports= function(app,passport,LocalStrategy,upload){
 	})
 
 	app.get('/setting',function(req,res){
-		res.render('setting')
+		users.getsettings(1,function(err,responce){
+			if(err){
+				console.log("cause error")
+			}
+			if(responce){
+				console.log(responce)
+				res.render('setting',{data:responce})
+			}else{
+				res.render('setting')				
+			}			
+		})
 	})
 
 
