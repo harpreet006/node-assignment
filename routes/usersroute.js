@@ -112,24 +112,24 @@ module.exports= function(app,passport,LocalStrategy,upload){
 			}
 		})		
 	}) 
-  	let uploadMul=upload.fields([{
+  	let uploadMul= upload.fields([{
            name: '_first1_sub_header', maxCount: 1
-         },
-         {
+        },
+        {
            name: '_first2_sub_header', maxCount: 1
-         },
-         {
+        },
+        {
            name: '_first3_sub_header', maxCount: 1
-         },
-         {
+        },
+        {
            name: '_first4_sub_header', maxCount: 1
-         },
-         {
+        },
+        {
            name: '_first5_sub_header', maxCount: 1
-         },
-         {
+        },
+        {
            name: '_first6_sub_header', maxCount: 1
-         }])
+        }])
 
 	app.post('/settings-save',uploadMul,function(req,res){
 	 	users.saveoptions(req,function(err,responce){
