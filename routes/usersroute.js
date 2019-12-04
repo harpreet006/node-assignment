@@ -183,23 +183,44 @@ module.exports= function(app,passport,LocalStrategy,upload){
 		res.render('elements')
 	})
 
+	app.locals.someNode = [];
+	app.locals.getNodeName = function(userId,key) {
+		let proMom = new Promise((resolve,reject)=>{
+			let a = users.getNodeValue([userId,key],function(err,responce){
+				if(err){					
+					return "errpr";
+				}
+				if(responce){					 				
+					resolve(responce[0].values)
+				}
+			})
+		})
+ 		
+		proMom.then((res=>{
+			console.log(res,"|****|")
+			test.push(res)
+		})).catch((err=>{
+			console.log('******')
+		}))
+		 
+		return []
+	}
+	 
+	 console.log("here",app.locals.getNodeName(1,"_generic_page"));
+
 	app.get('/setting',function(req,res){
 		users.getsettings(1,function(err,responce){
 			if(err){
 				console.log("cause error")
 			}
 			if(responce){
-				res.render('setting', {
-					helper: require('../helpers/helper'),
-					title: 'Setting Page'
-				});
+				res.render('setting', {	title: 'Setting Page'});
 				// res.render('setting',{data:responce})
 			}else{
 				res.render('setting')				
 			}			
 		})
-	})
-
+	}) 
 	app.get('/logout',function(req,res){
 		req.logout();
 			res.redirect('/');

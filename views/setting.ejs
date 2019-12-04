@@ -12,8 +12,15 @@
 
 		<!-- Header -->
 		<%-include('templates/header')%>  
-		<% helper.sayhi('1','_header_title') %>
-  	 
+		 
+ 	
+ 
+		<% if(getNodeName(1,"_generic_page").length){ %>
+			<%=JSON.stringify(getNodeName(1,"_generic_page"))%>
+	    	<h1> Success </h1 >
+	     <% } else{ %>
+	     	Empty
+	     <%}%> 	 
 			<section id="main" class="wrapper">
 				<form name='settings' action="/settings-save"  method="post"  enctype="multipart/form-data">
 

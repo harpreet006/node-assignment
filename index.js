@@ -18,7 +18,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
-app.set('port', process.env.PORT || 8002);
+app.set('port', process.env.PORT || 8003);
 app.set('views',path.join(__dirname,'views'))
 app.set('view engine', 'ejs');
 app.set(express.json())
@@ -137,7 +137,7 @@ app.get('/edit/:userid',async function(req,res){
 		res.render('edit',{data:responce,religious:religious})
 	})
 })
-
+ 
 app.get('/delete/:userid',function(req,res){
 	let query='delete from users where id="'+req.params.userid+'"';
 	console.log(query)

@@ -40,5 +40,8 @@ module.exports = {
   },
   getsettings:function(userid,callback){
     return conn.query("select * from node_options",callback)
+  },
+  getNodeValue:function(nodeAry,callback){
+    return conn.query("select * from `node_options` where `user_id` = "+nodeAry[0]+"  and `key` = '"+nodeAry[1]+"'",callback)
   }
 }
