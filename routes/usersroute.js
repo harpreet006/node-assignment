@@ -185,7 +185,7 @@ module.exports= function(app,passport,LocalStrategy,upload){
 
 	app.locals.someNode = [];
 	app.locals.getNodeName = function(userId,key) {
-		let proMom = new Promise((resolve,reject)=>{
+		proMom = new Promise((resolve,reject)=>{
 			let a = users.getNodeValue([userId,key],function(err,responce){
 				if(err){					
 					return "errpr";
@@ -195,14 +195,12 @@ module.exports= function(app,passport,LocalStrategy,upload){
 				}
 			})
 		})
- 		
+
 		proMom.then((res=>{
 			console.log(res,"|****|")
-			test.push(res)
 		})).catch((err=>{
 			console.log('******')
 		}))
-		 
 		return []
 	}
 	 
