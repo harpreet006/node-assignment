@@ -10,35 +10,68 @@ $(function(){
 	var send_username = $("#send_username")
 	var chatroom = $("#chatroom")
 	var feedback = $("#feedback")
-	var allUser = $("#allUser")
+	var allUserId = $("#allusers")
+	var delt = $(".delt")
+
+	$(document).on('click','.delt' ,function(event){
+		if($(this).parent()[0]){
+			$(this).parent()[0].remove()
+		}
+	})
+
 
 	//Emit message
+
+	var input = document.getElementById("message"); 
+	input.addEventListener("keyup", function(event) {
+	if (event.keyCode === 13) {
+			messageclick()			 
+		}
+
+	});
+
+
 	send_message.click(function(){
-		socket.emit('new_message', {message : message.val()})
+		messageclick()
 	})
+
+
+
+	function messageclick(){
+		if($.trim(username.val())==""){
+			username.focus().attr("placeholder","Enter the Username First")
+			return false	
+		}
+		socket.emit('new_message', {message : message.val()})
+	}
 
 	//Listen on new_message
 	socket.on("new_message", (data) => {
 		feedback.html('');
 		message.val('');
 		console.log('***&*')
-		chatroom.append("<p class='message'>" + data.username + ": " + data.message + "</p>")
-	})
+		chatroom.append("<p class='message'>" + data.username + ": " + data.message + " <b class='delt'> Delete for me </b></p>")
+	}) 
 
 		//Listen on new_message
-	socket.on("allUsers", (data) => {		
+	socket.on("allUsers", (data) => {
+		console.log('*&*& Accepted')
 		let userdata=data.allUsers
 		let	hj=[]		
 		userdata.forEach(function(value){
 			hj +='<p>'+value+'</p>'
 		})
-		console.log(hj)
-	})
-
-	
+		console.log("Accepted action")
+		allUserId.html(hj)
+	})	
 
 	//Emit a username
 	send_username.click(function(){
+		const usernameGet=username.val()
+		if($.trim(usernameGet)==""){
+			username.focus().attr("placeholder","Enter the Username First")
+			return false
+		}
 		socket.emit('change_username', {username : username.val()})
 	})
 
@@ -52,14 +85,12 @@ $(function(){
 
 	//Emit typing
 	message.bind("focusout", () => {
-		console.log("byeeeeeeeee1111111111")
 		socket.emit('typingout')
 	})
 	
 
 	//Listen on typing
 	socket.on('out', (data) => {
-		console.log("211321323e")
 		feedback.html('')
 	})
 

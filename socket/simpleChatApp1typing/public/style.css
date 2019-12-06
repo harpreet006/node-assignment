@@ -92,3 +92,17 @@ p.message {
 .message:nth-child(odd) {
     background-color: #81BEF7;
 }
+section#allusers {
+    border: 1px solid;
+    position: absolute;
+    top: 200px;
+    right: 70px;
+    width: 260px;
+    padding: 8px;
+}
+section#allusers p{
+margin-top:0px
+}
+.delt{
+float:right
+}

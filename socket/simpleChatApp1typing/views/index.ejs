@@ -10,7 +10,7 @@
 
   <body>
     <header>
-      <h1>Super Chat</h1>
+      <h1>.....</h1>
     </header>
 
     <section>
@@ -23,6 +23,13 @@
     <section id="chatroom">
       <section id="feedback"></section>
     </section>
+     <section id="allusers">
+       <% if (allUsers.length){%>
+       <% allUsers.forEach(function(datavalue){ %>
+        <p><%=datavalue%></p>
+        <% }) %>
+       <%}%>
+     </section>
 
     
 

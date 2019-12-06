@@ -1,6 +1,9 @@
 const express = require('express')
 const app = express()
 var allUsers=[]
+var storeMessage=[]
+var fs = require('fs');
+var uniqid = require('uniqid');
 
 
 //set the template engine ejs
@@ -12,7 +15,21 @@ app.use(express.static('public'))
 
 //routes
 app.get('/', (req, res) => {
-    res.render('index')
+
+    fs.readFile('saveChat.txt',function(err, data) {
+        if (err) throw err;
+        if(data){
+            let jsonparse=JSON.parse(data)             
+            jsonparse.forEach(function(data,key){
+                console.log(data.msg,key,"&***********")
+            })
+            // console.log(jsonparse.id)
+        }
+    });
+
+
+    res.render('index',{allUsers:allUsers})
+    io.sockets.emit('allUsers', {allUsers});
 })
 
 //Listen on port 3000
@@ -34,14 +51,17 @@ io.on('connection', (socket) => {
     //listen on change_username
     socket.on('change_username', (data) => {
         socket.username = data.username
-    })
-
+        allUsers.push(socket.username)
+        io.sockets.emit('allUsers', {allUsers});
+    }) 
     //listen on new_message
     socket.on('new_message', (data) => {
-        allUsers.push(socket.username)
-        console.log(allUsers,"Push Arrray")
-        io.sockets.emit('allUsers', {allUsers});
+        storeMessage.push({'id':uniqid(),'msg':data.message})
         io.sockets.emit('new_message', {message : data.message, username : socket.username});
+        fs.writeFile('saveChat.txt', JSON.stringify(storeMessage), function (err) {
+            if (err) throw err;
+            console.log('Saved!');
+        });        
     })
     // console.log(messagepush,"Arrray puch")
 
