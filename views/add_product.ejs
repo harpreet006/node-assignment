@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Edit Page - Industrious by TEMPLATED</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<%-include('templates/headstyle')%>
+	</head>
+	<body class="is-preload">
+		<!-- Header -->
+		<%-include('templates/header')%>
+		<!-- Heading -->
+			<div id="heading" >
+				<h1>Edit Page</h1>
+			</div>
+		<!-- Main -->
+			<section id="main" class="wrapper">
+				<div class="inner">
+					<form method="post" enctype="multipart/form-data" action="/productadd">
+						<div class="row gtr-uniform">
+							<div class="col-6 col-12-xsmall">
+								<input type="text" name="pname" id="name" value="" placeholder="Product Name" required="">
+							</div>
+							<div class="col-6 col-12-xsmall">
+								<input type="number" name="price" id="email" value="" placeholder="Product Price" required="">
+							</div>
+							<!-- Break -->
+							<div class="col-12">
+								<select name="pcategory" id="category" required="">
+									<option value="">- Select -</option>
+									<option value="beta">Beta</option>
+									<option value="gamma">Gamma</option>
+									<option value="delta">Delta</option>
+								</select>
+							</div>						 
+							<!-- Break -->
+							<div class="col-12">
+								<textarea name="ptextarea" id="textarea" placeholder="Product description" rows="6" required="" required=""></textarea>
+							</div>
+							<!-- Break -->
+							<div class="col-12">
+								<input type="file" name="file" id="file" required="">
+							</div>
+							<div class="col-12">
+								<ul class="actions">
+									<li><input type="submit" value="Save product" class="primary"></li>
+								</ul>
+							</div>
+						</div>
+					</form>
+				</div>
+			</section>
+		<!-- Footer -->
+		 <%-include('templates/footer')%>
+		<!-- Scripts -->
+		<%-include('templates/footerjs')%>
+	</body>
+</html>

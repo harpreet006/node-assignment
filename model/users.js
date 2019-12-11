@@ -43,5 +43,21 @@ module.exports = {
   },
   getNodeValue:function(nodeAry,callback){
     return conn.query("select * from `node_options` where `user_id` = "+nodeAry[0]+"  and `key` = '"+nodeAry[1]+"'",callback)
+  },
+  saveproduct:function(req,callback){
+    return conn.query("INSERT INTO `products`(`name`, `price`, `categories`, `description`, `product_image`,`status`) VALUES ('"+req.body.pname+"','"+req.body.price+"','"+req.body.pcategory+"','"+req.body.ptextarea+"','"+req.file.filename+"',0)",callback)
+  },
+  productlisting:function(callback){
+    return conn.query(`select * from products`,callback)
+  },
+  changestatus:function(req,callback){
+    console.log(`UPDATE products SET status = ${req.body.status} WHERE id = ${req.body.id}`)
+    return conn.query(`UPDATE products SET status = ${req.body.status} WHERE id = ${req.body.id}`,callback)
+  },    
+  getallproducts:function(req,callback){
+    return conn.query(`select * from products where status=1`,callback)
+  },
+  getsingleproduct:function(req,callback){
+    return conn.query(`select * from products where id=${req.params.id}`,callback)
   }
 }

@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+var cartCount=[]
 // const http = require('http');
 var multer = require('multer');
 const storage = multer.diskStorage({
@@ -13,6 +14,7 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage : storage}); 
+const fs = require("fs"); // Or `import fs from "fs";` with ESM
 const url = require('url');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -33,7 +35,8 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname,'public')))
 const  connection = require('./model/connection');	
 const  country = require('./model/country');
-require('./routes/usersroute')(app,passport,LocalStrategy,upload); // Call Route Action
+app.set("cart",cartCount) 
+require('./routes/usersroute')(app,passport,LocalStrategy,upload,cartCount); // Call Route Action
 var conn = connection.setconn
 // console.log(conn,"**&&")
 

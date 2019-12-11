@@ -22,6 +22,7 @@
     "express-session": "^1.17.0",
     "form": "^0.2.4",
     "formidable": "^1.2.1",
+    "fs": "0.0.1-security",
     "json_encode": "^0.1.0",
     "mongoose": "^5.7.12",
     "morgan": "^1.9.1",

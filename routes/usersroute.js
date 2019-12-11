@@ -1,6 +1,6 @@
 const  users = require('../model/users');
 const  country = require('../model/country');
-module.exports= function(app,passport,LocalStrategy,upload){
+module.exports= function(app,passport,LocalStrategy,upload,cartCount){
 	passport.serializeUser(function(user, done) {		 
 		done(null, user);
 	});
@@ -47,6 +47,12 @@ module.exports= function(app,passport,LocalStrategy,upload){
 			res.render('login');		
 		}
 	})
+	app.post('/cart',function(req,res){
+		cartCount.push(req.body.ids)
+		console.log(app.get('cart'))
+		return res.json({status:200,message:"Item added successfully"})
+	})
+	
 
 	app.get('/register',async function(req,res){
 		var newdata = new Promise((resolve, reject) => {
@@ -182,6 +188,77 @@ module.exports= function(app,passport,LocalStrategy,upload){
 	app.get('/elements',function(req,res){
 		res.render('elements')
 	})
+
+	app.get('/add_product',function(req,res){
+		res.render('add_product')
+	})	
+
+	
+
+	app.post('/productadd',upload.single('file'),function(req,res){
+		users.saveproduct(req,function(err,responce){
+			if(err){
+				console.log('Error cause',err)
+			}
+			if(responce){
+				console.log("Data inserted successfully")
+				res.redirect('/productlisting')
+			}else{
+				console.log("responce1 empty")
+			}
+		})
+	})
+	app.post('/changestatus',function(req,res){
+		users.changestatus(req,function(err,responce){
+			if(err){
+				console.log('Error cause',err)
+			}
+			if(responce){
+				return res.json({status:1,message:"success"})
+			}else{
+				console.log("responce1 empty")
+			}
+		})
+	})
+
+	app.get('/shop',function(req,res){
+			users.getallproducts(req,function(err,responce){
+			if(err){
+				console.log('Error cause',err)
+			}
+			if(responce){
+				res.render('shop',{products:responce})
+			}else{
+				console.log("responce1 empty")
+			}
+		})
+	})
+	app.get('/shop/:id?',function(req,res){
+			users.getsingleproduct(req,function(err,responce){
+			if(err){
+				console.log('Error cause',err)
+			}
+			if(responce){
+				res.render('single_product',{products:responce})
+			}else{
+				console.log("responce1 empty")
+			}
+		})
+	})
+	
+	app.get('/productlisting',function(req,res){
+		users.productlisting(function(err,responce){
+			if(err){
+				console.log('Error cause',err)
+			}
+			if(responce){
+				res.render('productlisting',{products:responce})
+			}else{
+				console.log("responce1 empty")
+			}
+		})
+	})	
+
 
 	app.locals.someNode = [];
 	app.locals.getNodeName = function(userId,key) {

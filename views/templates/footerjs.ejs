@@ -1,5 +1,27 @@
+<script type="text/javascript">
+	$(document).ready(function(){
+		$(".addtocart").click(function(){
+			// console.log($(this).data('id'),"***************")
+			$.ajax({
+				method:"POST",
+				url:"/cart",
+				data:{ids:$(this).data('id')},
+				cache:true,
+				header:{contentType: 'application/json'},
+				dataType: "text",
+				success:function(responce){
+					console.log(responce)
+				},
+				error:function(error,result){
+					console.log(error,result)
+				}
+			})
+		})
+
+	})
+</script>
 <script src="assets/js/jquery.min.js"></script>
-			<script src="assets/js/browser.min.js"></script>
-			<script src="assets/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
-			<script src="assets/js/main.js"></script>
+<script src="assets/js/browser.min.js"></script>
+<script src="assets/js/breakpoints.min.js"></script>
+<script src="assets/js/util.js"></script>
+<script src="assets/js/main.js"></script>

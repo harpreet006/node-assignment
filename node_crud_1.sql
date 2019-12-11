@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 02, 2019 at 06:02 PM
+-- Generation Time: Dec 11, 2019 at 05:09 PM
 -- Server version: 5.7.27-0ubuntu0.16.04.1
 -- PHP Version: 7.1.33-1+ubuntu16.04.1+deb.sury.org+1
 
@@ -48280,6 +48280,45 @@ CREATE TABLE `node_options` (
   `values` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `node_options`
+--
+
+INSERT INTO `node_options` (`id`, `user_id`, `key`, `values`) VALUES
+(1, 1, '_generic_page', 'Welcome to singh'),
+(2, 1, '_header_title', 'sdf'),
+(3, 1, '_header_paragraph', 'sdf');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `products`
+--
+
+CREATE TABLE `products` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `price` varchar(255) NOT NULL,
+  `categories` varchar(255) NOT NULL,
+  `description` varchar(225) NOT NULL,
+  `product_image` varchar(255) NOT NULL,
+  `status` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `name`, `price`, `categories`, `description`, `product_image`, `status`) VALUES
+(13, 'Ttetskkl456', '55', 'gamma', 'Thsnekns sdkfsladfnl dfjlsdnf .', 'file-1576045830002.jpg', 1),
+(14, 'new', '5000', 'beta', 'dsfasd', 'file-1576048694689.jpg', 1),
+(15, 'Test3', '800', 'gamma', 'This is test json', 'file-1576050986722.jpg', 1),
+(16, 'Test3', '5000', 'gamma', 'This is test product pre', 'file-1576055289855.jpg', 1),
+(17, 'Test4', '5000', 'delta', 'This is test4 section', 'file-1576056109841.jpg', 1),
+(18, 'Test51', '8000', 'gamma', 'This is test51 section to add', 'file-1576056203272.jpg', 1),
+(19, 'satnam', '9000', 'beta', 'dfsd', 'file-1576060984255.jpg', 1),
+(20, 'mandeep', '900', 'gamma', 'his isdf', 'file-1576061532169.jpg', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -52522,6 +52561,12 @@ ALTER TABLE `node_options`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `states`
 --
 ALTER TABLE `states`
@@ -52551,7 +52596,12 @@ ALTER TABLE `countries`
 -- AUTO_INCREMENT for table `node_options`
 --
 ALTER TABLE `node_options`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 --
 -- AUTO_INCREMENT for table `states`
 --

@@ -2,7 +2,8 @@
 <header id="header">
 	<a class="logo" href="/">Industrious</a>
 	<nav>
-		<a href="#menu">Menu</a>
+	<div href="#" class="button append-cart icon fa-cart-plus"></div>
+		<a href="#menu">Menu</a>	
 	</nav>
 </header>
 <!-- Nav --> 
@@ -12,12 +13,13 @@
 		<li><a href="/elements">Elements</a></li>
 		<li><a href="/generic">Generic</a></li>
 		<li><a href="/list">List</a></li>
+		<li><a href="/add_product">Add Product</a></li>
 		<% if (locals.user_name) {%>
 			<li><a href="/logout">Logout</a></li> <!--locals.user_name.file-->
 			<li><a href="/setting">Setting</a></li> <!--locals.user_name.file-->
 			<img style="width: 24%;border-radius: 51%;height: 64px;" src="/uploads/<%=locals.user_name.file%>">
 		<%}else{%>
-		<li><a href="/register">Register</a></li>
+		<li><a href="/register">Register</a></li>		
 		<li><a href="/userlogin">Login</a></li>
 		<%}%>		
 	</ul>

@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>List Page - Industrious by TEMPLATED</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<%-include('templates/headstyle')%>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$("input[type=checkbox]").click(function(){
+					var atLeastOneIsChecked = $('input[type=checkbox]').prop("checked");
+					console.log({status:atLeastOneIsChecked,id:$(this).data('key')})
+					//return false;
+					$.ajax({
+						method:"POST",
+						url:"/changestatus",
+						data:{status:atLeastOneIsChecked,id:$(this).data('key')},
+						cache:true,
+						header:{contentType: 'application/json'},
+						dataType: "text",
+						success:function(responce){
+							console.log(responce)
+						},
+						error:function(error,result){
+							console.log(error,result)
+						}
+					})
+				})
+
+			})
+		</script>
+	</head>
+	<body class="is-preload">
+		<!-- Header -->
+		<%-include('templates/header')%>
+		<!-- Heading -->
+			<div id="heading" >
+				<h1>Product Listing</h1>
+			</div>
+		<!-- Main -->
+			<section id="main" class="wrapper">
+				<div class="inner">
+					<div class="content">						
+						<div class="table-wrapper">							
+							<table>
+								<thead>
+									<tr>
+										<th>S/N</th>
+										<th>Name</th>
+										<th>Price</th>
+										<th>Categories</th>
+										<th>images</th>
+										<th>status</th>
+									</tr>
+								</thead>
+								<tbody>
+									<% for(a=0;a<products.length;a++) { %>
+										<tr>
+											<td><%=a+1%></td>
+											<td><%=products[a].name%></td>
+											<td><%=products[a].price%></td>
+											<td><%=products[a].categories%></td>
+											<td>												
+												<img style="width: 10%" src='/uploads/<%=products[a].product_image%>'>
+											</td>
+											<td>
+												<label class="switch">
+													<input type="checkbox" data-key=<%=products[a].id%> <%if(products[a].status){%> checked<%}%> >
+													<span class="slider round"></span>
+												</label>
+											</td>
+											 
+										</tr>
+									<%}%>									
+								</tbody>
+							</table>							 
+						</div>
+					</div>
+				</div>				
+			</section>
+		<!-- Footer -->
+		 <%-include('templates/footer')%>
+		<!-- Scripts -->
+		<%-include('templates/footerjs')%>
+	</body>
+</html>
