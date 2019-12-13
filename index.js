@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 var cartCount=[]
-// const http = require('http');
 var multer = require('multer');
 const storage = multer.diskStorage({
     destination : function(req,file,callback){
@@ -20,7 +19,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }))
-app.set('port', process.env.PORT || 8003);
+app.set('port', process.env.PORT || 8001);
 app.set('views',path.join(__dirname,'views'))
 app.set('view engine', 'ejs');
 app.set(express.json())
@@ -35,8 +34,7 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname,'public')))
 const  connection = require('./model/connection');	
 const  country = require('./model/country');
-app.set("cart",cartCount) 
-require('./routes/usersroute')(app,passport,LocalStrategy,upload,cartCount); // Call Route Action
+require('./routes/usersroute')(app,passport,LocalStrategy,upload,cartCount,session); // Call Route Action
 var conn = connection.setconn
 // console.log(conn,"**&&")
 

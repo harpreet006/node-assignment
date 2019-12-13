@@ -1,6 +1,6 @@
 const  users = require('../model/users');
 const  country = require('../model/country');
-module.exports= function(app,passport,LocalStrategy,upload,cartCount){
+module.exports= function(app,passport,LocalStrategy,upload,cartCount,session){
 	passport.serializeUser(function(user, done) {		 
 		done(null, user);
 	});
@@ -35,7 +35,6 @@ module.exports= function(app,passport,LocalStrategy,upload,cartCount){
 
 	app.get('/',function(req,res){
 		var name = req.user
-		console.log(req.user,"**&&&**")
 		res.locals.user_name = req.user;
 		res.render('index')
 	})
@@ -44,15 +43,28 @@ module.exports= function(app,passport,LocalStrategy,upload,cartCount){
 		if(req.user !="" &&  req.user !=undefined){			
 			res.redirect('/')
 		}else{
-			res.render('login');		
+			res.render('login');
 		}
 	})
 	app.post('/cart',function(req,res){
 		cartCount.push(req.body.ids)
-		console.log(app.get('cart'))
-		return res.json({status:200,message:"Item added successfully"})
+		req.session.cart=cartCount;
+		return res.json({status:200,message:"Item added successfully",cartcount:cartCount.length})
 	})
-	
+
+	app.get('/checkout',function(req,res){
+		let vartItems=req.session.cart
+		var op=''
+		users.cartPage(vartItems, function (err, user) {
+			if(err){
+				console.log('Errror section')
+			}
+			if(user){
+				console.log(user,"******")
+			}		 
+		});
+		res.render('checkout',{productshow:'user'})
+	})	
 
 	app.get('/register',async function(req,res){
 		var newdata = new Promise((resolve, reject) => {
@@ -221,7 +233,7 @@ module.exports= function(app,passport,LocalStrategy,upload,cartCount){
 		})
 	})
 
-	app.get('/shop',function(req,res){
+	app.get('/shop',isLoggedIn,function(req,res){
 			users.getallproducts(req,function(err,responce){
 			if(err){
 				console.log('Error cause',err)
@@ -281,7 +293,7 @@ module.exports= function(app,passport,LocalStrategy,upload,cartCount){
 		return []
 	}
 	 
-	 console.log("here",app.locals.getNodeName(1,"_generic_page"));
+	// console.log("here",app.locals.getNodeName(1,"_generic_page"));
 
 	app.get('/setting',function(req,res){
 		users.getsettings(1,function(err,responce){

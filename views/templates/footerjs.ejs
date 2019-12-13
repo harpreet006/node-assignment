@@ -1,7 +1,6 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$(".addtocart").click(function(){
-			// console.log($(this).data('id'),"***************")
 			$.ajax({
 				method:"POST",
 				url:"/cart",
@@ -9,8 +8,11 @@
 				cache:true,
 				header:{contentType: 'application/json'},
 				dataType: "text",
-				success:function(responce){
-					console.log(responce)
+				success:function(response){
+					response=JSON.parse(response)
+					console.log(response.cartcount,"test count")
+					$('.append-cart').html(response.cartcount)
+					localStorage.setItem("myCart", response.cartcount);
 				},
 				error:function(error,result){
 					console.log(error,result)

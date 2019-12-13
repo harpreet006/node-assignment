@@ -2,7 +2,7 @@
 <header id="header">
 	<a class="logo" href="/">Industrious</a>
 	<nav>
-	<div href="#" class="button append-cart icon fa-cart-plus"></div>
+	<a href="/checkout"><b class="button append-cart icon fa-cart-plus"></b></a>
 		<a href="#menu">Menu</a>	
 	</nav>
 </header>
@@ -24,3 +24,9 @@
 		<%}%>		
 	</ul>
 </nav>
+<script>
+$(document).ready(function(){	 
+	var x = localStorage.getItem("myCart");
+	$(".button.append-cart.icon.fa-cart-plus").html(x)
+})
+</script>
