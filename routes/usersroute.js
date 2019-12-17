@@ -49,6 +49,7 @@ module.exports= function(app,passport,LocalStrategy,upload,cartCount,session){
 	app.post('/cart',function(req,res){
 		cartCount.push(req.body.ids)
 		req.session.cart=cartCount;
+		console.log(cartCount,"*********")
 		return res.json({status:200,message:"Item added successfully",cartcount:cartCount.length})
 	})
 
@@ -60,10 +61,9 @@ module.exports= function(app,passport,LocalStrategy,upload,cartCount,session){
 				console.log('Errror section')
 			}
 			if(user){
-				console.log(user,"******")
+				res.render('checkout',{productshow:user})				
 			}		 
 		});
-		res.render('checkout',{productshow:'user'})
 	})	
 
 	app.get('/register',async function(req,res){

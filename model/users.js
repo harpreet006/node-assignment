@@ -61,18 +61,6 @@ module.exports = {
     return conn.query(`select * from products where id=${req.params.id}`,callback)
   },
   cartPage:function(req,callback){
-    console.log(req,"cartPage")
-    let comMon = new Promise((resolve,reject)=>{
-      return conn.query(`select * from products where id IN ${dataId}`,callback)
-      /*req.forEach(function(dataId){
-        return conn.query(`select * from products where id IN ${dataId}`,callback)
-      })*/
-      resolve(true)
-    })
-    comMon.then(res=>{      
-      return callback(null,res)
-    }).catch(err=>{
-       return callback(null,'Error Section')
-    })
+    return conn.query(`select * from products where id IN(${req})`,callback)
   }
 }

@@ -35,7 +35,14 @@
 	 										<%= description.substring(0, 100) %>
 	 										<% if(description.length>100){ %> <a href="/shop/<%=products[a].id%>">Read More</a><%}%>
 	 									</p>
-	 									<button class="addtocart" data-id='<%=products[a].id%>'>Add to Cart</button>
+	 									<!-- <div class="quity-section">
+	 										<select>
+	 											<%for(c=1;c<=10;c++){%>
+	 											<option><%=c%></option>	
+	 											<%}%> 											 
+	 										</select>
+	 									</div> -->
+	 									<button class="addtocart" data-id='<%=products[a].id%>'>Add to Cart </button>					
  									</div>
  								</div>
 							<%}%>
@@ -49,3 +56,4 @@
 		<%-include('templates/footerjs')%>
 	</body>
 </html>
+ 
