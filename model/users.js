@@ -63,9 +63,10 @@ module.exports = {
   cartPage:function(req,callback){
     console.log(req,"cartPage")
     let comMon = new Promise((resolve,reject)=>{
-      req.forEach(function(dataId){
-        return conn.query(`select * from products where id=${dataId}`,callback)
-      })
+      return conn.query(`select * from products where id IN ${dataId}`,callback)
+      /*req.forEach(function(dataId){
+        return conn.query(`select * from products where id IN ${dataId}`,callback)
+      })*/
       resolve(true)
     })
     comMon.then(res=>{      
