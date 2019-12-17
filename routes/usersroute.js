@@ -60,10 +60,9 @@ module.exports= function(app,passport,LocalStrategy,upload,cartCount,session){
 				console.log('Errror section')
 			}
 			if(user){
-				console.log(user,"******")
+				res.render('checkout',{productshow:user})				
 			}		 
 		});
-		res.render('checkout',{productshow:'user'})
 	})	
 
 	app.get('/register',async function(req,res){
