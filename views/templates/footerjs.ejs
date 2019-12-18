@@ -1,18 +1,23 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$(".addtocart").click(function(){
+			var thisText=$(this)
 			$.ajax({
 				method:"POST",
 				url:"/cart",
-				data:{ids:{'id',$(this).data('id')}},
+				data:{ids:{'id':$(this).data('id'),'qty':1}},
 				cache:true,
 				header:{contentType: 'application/json'},
 				dataType: "text",
 				success:function(response){
 					response=JSON.parse(response)
-					$('.append-cart').html(response.cartcount)
-					console.log(response.cartcount,"Cart ITem")
-					localStorage.setItem("myCart", response.cartcount);
+					thisText.html(response.message)
+					// console.log(this,'&&&&*')
+					// console.log($(this).data('id').after('****'))
+					// console.log(response)
+					// $('.append-cart').html(response.cartcount.length)
+					// console.log(response.cartcount,"Cart ITem")
+					// localStorage.setItem("myCart", response.cartcount);
 				},
 				error:function(error,result){
 					console.log(error,result)

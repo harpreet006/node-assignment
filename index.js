@@ -12,7 +12,7 @@ const storage = multer.diskStorage({
     }
 });
 
-const upload = multer({ storage : storage}); 
+const upload = multer({ storage : storage});
 const fs = require("fs"); // Or `import fs from "fs";` with ESM
 const url = require('url');
 const path = require('path');

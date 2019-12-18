@@ -96,16 +96,31 @@ function decrement_quantity(cart_id,id) {
     }
 }
 
-function save_to_db(cart_id, new_quantity,id) {	
+function save_to_db(cart_id, new_quantity,id) {
+	/*	$.ajax({
+		method:"POST",
+		url:'/cart',
+		data:{datakey:inputvalue},
+		cache:true,
+		header:{contentType: 'application/json'},
+		dataType:"text",
+		success:function(res,responcetext){		
+		},
+		error:function(err,responce){
+			console.log("*****");
+		}
+		})
+	*/
+	/*var cartItem=localStorage.getItem("myCart")
+	console.log(cartItem,"***********")
 	console.log(cart_id,new_quantity,id,"&******&")
 	var inputQuantityElement = $("#input-quantity-"+cart_id).val(new_quantity);
 	let countsect=parseInt($(".checkoutProduct .section_"+id+" td:nth(2)").html())*new_quantity
 	$(".checkoutProduct .section_"+id+" td:nth(5)").html(countsect)
-	// alert("*&&*&*&*")
-	sumeachrow()
+	sumeachrow()*/
 }
 // $(document).ready(function(){
-	let countact=$(".checkoutProduct tr").length
+	/*let countact=$(".checkoutProduct tr").length
 	function sumeachrow(){
 		var totalSum=''		
 		for(a=0;a<countact;a++){
@@ -117,7 +132,7 @@ function save_to_db(cart_id, new_quantity,id) {
 		}
 		$(".total-number-sum").html(totalSum)
 	}		
-	sumeachrow()
+	sumeachrow()*/
 // })
 </script>
 	</body>

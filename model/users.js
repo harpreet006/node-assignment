@@ -62,5 +62,8 @@ module.exports = {
   },
   cartPage:function(req,callback){
     return conn.query(`select * from products where id IN(${req})`,callback)
+  },
+  addsession:function(req,ids,callback){
+    return conn.query('INSERT INTO `session`(`user_id`, `qty`, `product_id`) VALUES ('+ids+','+req.id+','+req.qty+')',callback)     
   }
 }

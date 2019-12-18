@@ -47,24 +47,44 @@ module.exports= function(app,passport,LocalStrategy,upload,cartCount,session){
 		}
 	})
 	app.post('/cart',function(req,res){
+		console.log(req.session.passport.user.user_id,"***********")
+		var cartCount=req.session.cart
+		let callbackFun=cartCount.filter(function (person) { return person.id == req.body.ids.id });
+		if(callbackFun.length>0){
+			return res.json({status:200,message:"Item already exist"})
+		}else{
+			users.addsession(req.body.ids,req.session.passport.user.user_id,function(err,responce){
+				if(err){
+					console.log('Error section')
+				}
+				if(responce){
+					console.log('successfully added')
+				}
+			})
+		}
 		cartCount.push(req.body.ids)
 		req.session.cart=cartCount;
-		console.log(cartCount,"*********")
-		return res.json({status:200,message:"Item added successfully",cartcount:cartCount.length})
+		return res.json({status:200,message:"Item added successfully",cartcount:cartCount})
 	})
 
 	app.get('/checkout',function(req,res){
-		let vartItems=req.session.cart
-		var op=''
-		users.cartPage(vartItems, function (err, user) {
-			if(err){
-				console.log('Errror section')
-			}
-			if(user){
-				res.render('checkout',{productshow:user})				
-			}		 
-		});
-	})	
+		console.log('************',req.session.cart,"********")
+		let cart=req.session.cart
+		if(cart.length > 0){
+			let cartIds= cart.map((res,index)=>{
+				return res.id
+			})
+			var op=''
+			users.cartPage(cartIds, function (err, user){
+				if(err){
+					console.log('Errror section')
+				}
+				if(user){
+					res.render('checkout',{productshow:user})
+				}
+			});
+		}
+	})
 
 	app.get('/register',async function(req,res){
 		var newdata = new Promise((resolve, reject) => {
