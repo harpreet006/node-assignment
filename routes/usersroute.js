@@ -54,7 +54,7 @@ module.exports= function(app,passport,LocalStrategy,upload,cartCount,session){
 	})
 
 	app.get('/checkout',function(req,res){
-		let vartItems=req.session.cart
+		var vartItems=req.session.cart
 		var op=''
 		users.cartPage(vartItems, function (err, user) {
 			if(err){

@@ -61,6 +61,7 @@ module.exports = {
     return conn.query(`select * from products where id=${req.params.id}`,callback)
   },
   cartPage:function(req,callback){
-    return conn.query(`select * from products where id IN(${req})`,callback)
+    console.log(req,"dddddddddddddddd")
+    //return conn.query(`select * from products where id IN(${req})`,callback)
   }
 }

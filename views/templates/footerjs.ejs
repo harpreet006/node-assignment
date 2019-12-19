@@ -4,7 +4,7 @@
 			$.ajax({
 				method:"POST",
 				url:"/cart",
-				data:{ids:{'id',$(this).data('id')}},
+				data:{ids:{'id':$(this).data('id'),'qty':1}},
 				cache:true,
 				header:{contentType: 'application/json'},
 				dataType: "text",
