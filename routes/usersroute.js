@@ -34,7 +34,16 @@ module.exports= function(app,passport,LocalStrategy,upload,cartCount,session){
 	));
 
 	app.get('/',function(req,res){
-		var name = req.user
+		if(req.session.passport!=undefined){
+			console.log(req.session.passport,"***** Count Act *******")
+			// console.log(req.session.passport,"*****I am not Undefind")
+			// console.log(req.session.passport.cartCount=null,"Get the cart count act program FINAL")
+			// req.session.passport.cart.distroy()
+		}else{
+			console.log('Get undefind')
+		}
+		console.log(req.session.passport,"***** Count Act *******")
+		// var name = req.user
 		res.locals.user_name = req.user;
 		res.render('index')
 	})
@@ -47,24 +56,121 @@ module.exports= function(app,passport,LocalStrategy,upload,cartCount,session){
 		}
 	})
 	app.post('/cart',function(req,res){
-		cartCount.push(req.body.ids)
-		req.session.cart=cartCount;
-		console.log(cartCount,"*********")
-		return res.json({status:200,message:"Item added successfully",cartcount:cartCount.length})
+		console.log(cartCount.length,"get length section")
+		// if(cartCount.length>0){
+			let callbackFun=cartCount.filter(function (person) { return person.id == req.body.ids.id });
+			if(callbackFun.length>0){
+				return res.json({status:200,message:"Item already exist"})
+			}else{
+				users.addsession(req.body.ids,req.session.passport.user.user_id,function(err,responce){
+					if(err){
+						console.log('Error section')
+					}
+					if(responce){
+						console.log('successfully added')
+					}
+				})
+				cartCount.push(req.body.ids)
+				req.session.passport.cartCount=cartCount
+			}		
+		// console.log(req.session.passport.cart,"Get session")
+		return res.json({status:200,message:"Item added successfully",cartcount:'cartCount'})
 	})
 
 	app.get('/checkout',function(req,res){
-		var vartItems=req.session.cart
-		var op=''
-		users.cartPage(vartItems, function (err, user) {
+		console.log('************',req.session.passport,"********")
+		if(cartCount.length > 0){
+			let cartIds= cartCount.map((res,index)=>{
+				return res.id
+			})
+			// console.log(cartIds,"*********")
+			users.cartPage(cartIds, function (err, user){
+				if(err){
+					console.log('Errror section')
+				}
+				if(user){
+					res.locals.user_name = req.user;
+					res.render('checkout',{productshow:user})
+				}
+			});
+		}
+	})
+
+	app.post('/changeqty',function(req,res){
+		console.log("*********",req.body.datakey.id,"*******")
+		users.increateQyt(req.body.datakey, function (err, user){
 			if(err){
 				console.log('Errror section')
 			}
 			if(user){
-				res.render('checkout',{productshow:user})				
-			}		 
+				res.render('checkout',{productshow:'user'})
+			}
 		});
-	})	
+	})
+
+	app.get('/orderplace',function(req,res){
+		let cartIds= cartCount.map((res,index)=>{
+			return res.id
+		})
+		console.log(cartIds,"*********")
+		users.cartPage(cartIds,function(err,responce){
+			if(err){
+				console.log("Error secion")
+			}
+			if(responce){
+				res.locals.user_name = req.user;
+				res.render('orderplace',{productshow:responce})
+			}
+		})
+	})
+	app.post('/orderplaced',function(req,res){
+		users.placedorder(req,function(err,responce){
+			if(err){
+				console.log("Error secion")
+			}
+
+			if(responce){
+				users.deletesession(req,function(err,responce){
+					if(err){
+						console.log("error section")
+					}
+					if(responce){
+						res.locals.user_name = req.user;
+						// delete req.session.passport.cartCount
+						console.log("delete session with corsponding id",req.session.passport)
+					}
+				})
+				res.render('thankupage',{orderResult:responce.insertId})
+			}
+		})
+	})
+
+
+	/*(async () => {
+	  const charge = await stripe.charges.create({
+	    amount: 999,
+	    currency: 'usd',
+	    source: 'tok_visa',
+	    receipt_email: 'jenny.rosen@example.com',
+	  });
+	})();*/
+
+	app.post("/pay", function(req, res) {
+	    let amount = 10*100;
+	    // create a customer 
+	    stripe.customers.create({
+	        email: req.body.stripeEmail, // customer email
+	        source: req.body.stripeToken // token for the card 
+	    })
+	    .then(customer =>
+	        stripe.charges.create({ // charge the customer
+	        amount,
+	        description: "Sample Charge",
+	            currency: "usd",
+	            customer: customer.id
+	        }))
+	    .then(charge => res.render("pay")); // render the payment successful alter page after payment
+	});	
 
 	app.get('/register',async function(req,res){
 		var newdata = new Promise((resolve, reject) => {
@@ -234,17 +340,22 @@ module.exports= function(app,passport,LocalStrategy,upload,cartCount,session){
 	})
 
 	app.get('/shop',isLoggedIn,function(req,res){
+		console.log("&&&&&&&&&&&&&&&",req.session.passport,"&&&&&&&&&&&&&&&")
 			users.getallproducts(req,function(err,responce){
 			if(err){
 				console.log('Error cause',err)
 			}
 			if(responce){
+				res.locals.user_name = req.user;
 				res.render('shop',{products:responce})
 			}else{
 				console.log("responce1 empty")
 			}
 		})
 	})
+
+
+
 	app.get('/shop/:id?',function(req,res){
 			users.getsingleproduct(req,function(err,responce){
 			if(err){

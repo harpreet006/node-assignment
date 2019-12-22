@@ -61,7 +61,20 @@ module.exports = {
     return conn.query(`select * from products where id=${req.params.id}`,callback)
   },
   cartPage:function(req,callback){
-    console.log(req,"dddddddddddddddd")
-    //return conn.query(`select * from products where id IN(${req})`,callback)
+    return conn.query(`select products.id,products.name,products.price,products.product_image,session.qty,session.user_id from products left join session on session.product_id=products.id where products.id IN(${req})`,callback)
+  },
+  addsession:function(req,ids,callback){
+    console.log('INSERT INTO `session`(`user_id`, `qty`, `product_id`) VALUES ('+ids+','+req.qty+','+req.id+')',"********")
+    return conn.query('INSERT INTO `session`(`user_id`, `qty`, `product_id`) VALUES ('+ids+','+req.qty+','+req.id+')',callback)
+  },
+  increateQyt:function(req,callback){
+    console.log('UPDATE session SET qty ='+req.qty+' where product_id='+req.product_id+'')
+    return conn.query('UPDATE session SET qty ='+req.qty+' where product_id='+req.product_id+'',callback)
+  },
+  placedorder:function(req,callback){
+    return conn.query('INSERT INTO `order`(`user_id`, `payment_type`, `status`) VALUES('+req.body.user_id+',"COD","COMPLETED")',callback)
+  },
+  deletesession:function(req,callback){    
+    return conn.query('DELETE FROM session WHERE user_id ='+req.body.user_id+'',callback)
   }
 }

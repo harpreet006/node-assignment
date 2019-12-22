@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 11, 2019 at 05:09 PM
+-- Generation Time: Dec 18, 2019 at 06:28 PM
 -- Server version: 5.7.27-0ubuntu0.16.04.1
 -- PHP Version: 7.1.33-1+ubuntu16.04.1+deb.sury.org+1
 
@@ -48322,6 +48322,30 @@ INSERT INTO `products` (`id`, `name`, `price`, `categories`, `description`, `pro
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `session`
+--
+
+CREATE TABLE `session` (
+  `id` int(11) NOT NULL,
+  `user_id` varchar(255) NOT NULL,
+  `qty` varchar(255) NOT NULL,
+  `product_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `session`
+--
+
+INSERT INTO `session` (`id`, `user_id`, `qty`, `product_id`) VALUES
+(1, '74', '13', 1),
+(2, '74', '14', 1),
+(3, '74', '13', 1),
+(4, '74', '16', 1),
+(5, '74', '13', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `states`
 --
 
@@ -52567,6 +52591,12 @@ ALTER TABLE `products`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `session`
+--
+ALTER TABLE `session`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `states`
 --
 ALTER TABLE `states`
@@ -52602,6 +52632,11 @@ ALTER TABLE `node_options`
 --
 ALTER TABLE `products`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+--
+-- AUTO_INCREMENT for table `session`
+--
+ALTER TABLE `session`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `states`
 --

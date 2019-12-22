@@ -1,4 +1,5 @@
 const express = require('express');
+const stripe = require("stripe")("sk_test_4ed24rkbnvcb3987dd23rc");
 const app = express();
 var cartCount=[]
 var multer = require('multer');
@@ -11,8 +12,7 @@ const storage = multer.diskStorage({
         callback(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1])
     }
 });
-
-const upload = multer({ storage : storage}); 
+const upload = multer({ storage : storage});
 const fs = require("fs"); // Or `import fs from "fs";` with ESM
 const url = require('url');
 const path = require('path');
@@ -98,13 +98,13 @@ app.get('/edit/:userid',async function(req,res){
 				console.log("file not found")
 				reject('file not found')
 			}
-			if(result){				 
+			if(result){
 				resolve(result)
 				//console.log(result,"The file is found")
 			}
 		})
 	})
-/*	let promisestate = new Promise(function(resolve,reject){
+	/*	let promisestate = new Promise(function(resolve,reject){
 		country.getstates(function(err,responce){
 			if(err){
 				reject("record not found")
@@ -116,7 +116,7 @@ app.get('/edit/:userid',async function(req,res){
 			}
 		})
 	 })*/
-/*	let promisecities=new Promise(function(resolve,reject){
+	/*	let promisecities=new Promise(function(resolve,reject){
 		country.getcitys(function(err,responce){
 			if(err){
 				reject('Record not found')
@@ -137,8 +137,7 @@ app.get('/edit/:userid',async function(req,res){
 		console.log(responce[0].state)
 		res.render('edit',{data:responce,religious:religious})
 	})
-})
- 
+}) 
 app.get('/delete/:userid',function(req,res){
 	let query='delete from users where id="'+req.params.userid+'"';
 	console.log(query)

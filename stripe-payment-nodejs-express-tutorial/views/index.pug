@@ -1,0 +1,16 @@
+html
+  body
+  div(style='height:300px; width:100%;background-color:#e2e2e2; text-align:center; padding-top:50px') 
+   p(style='font-size:30px;') jsonworld.com
+   p Payment with stripe in Nodejs express application.
+
+    form(action="/pay", method="post")
+      article
+        label Amount: $10.00
+      script(
+        src="//checkout.stripe.com/v2/checkout.js",
+        class="stripe-button",
+        data-key='pk_test_**********************************',
+        data-locale="auto",
+        data-description="Sample payment",
+        data-amount="1000")
