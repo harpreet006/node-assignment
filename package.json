@@ -16,7 +16,7 @@
     "cors": "^2.8.5",
     "ejs": "^2.7.1",
     "express": "^4.17.1",
-    "express-fileupload": "^1.1.6-alpha.5",
+    "express-fileupload": "^1.1.9",
     "express-flash-messages": "^0.1.1",
     "express-flash-notification": "^0.5.0",
     "express-formidable": "^1.2.0",
